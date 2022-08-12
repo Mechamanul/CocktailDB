@@ -14,6 +14,12 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="Theme.CocktailDB.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/cocktail_mojito_icon</item>
+        <item name="postSplashScreenTheme">@style/Theme.CocktailDB.NoActionBar</item>
+    </style>
+
     <style name="Theme.CocktailDB.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
