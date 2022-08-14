@@ -16,3 +16,4 @@ rootProject.name = "CocktailDB"
 include ':app'
 include ':domain'
 include ':data'
+include ':utils'
