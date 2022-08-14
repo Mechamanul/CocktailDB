@@ -9,4 +9,21 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="onboarding_first_screen_text">Это форк тестового задания Kazan-Express.</string>
+    <string name="onboarding_second_screen_text">Я сделал это тестовое задание что бы пополнить портфолио.</string>
+    <string name="onboarding_third_screen_text">Это небольшое приложение использует The CocktailDB API.</string>
+    <string name="onboarding_button_text">Finish</string>
+    <string name="cocktail_picture_description">cocktail picture</string>
+    <string name="cocktail_name_field">Name</string>
+    <string name="cocktail_name_value">Name value</string>
+    <string name="id_field_text">Id</string>
+    <string name="id_value_text">id number</string>
+    <string name="category_field_text">Category</string>
+    <string name="category_value_text">Ordinary drink</string>
+    <string name="type_field_text">Type</string>
+    <string name="type_value_text">Alcoholic</string>
+    <string name="glass_type_field_text">Glass type</string>
+    <string name="glass_type_value_text">Old-fashioned glass</string>
 </resources>

@@ -2,4 +2,19 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph" />
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragmentOnboarding">
+    <fragment
+        android:id="@+id/fragmentOnboarding"
+        android:name="com.mechamanul.cocktaildb.ui.onboarding.FragmentOnBoarding"
+        android:label="FragmentOnboarding" >
+        <action
+            android:id="@+id/action_fragmentOnboarding_to_fragmentCocktail"
+            app:destination="@id/fragmentCocktail" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentCocktail"
+        android:name="com.mechamanul.cocktaildb.ui.FragmentCocktail"
+        android:label="fragment_cocktail"
+        tools:layout="@layout/fragment_cocktail" />
+</navigation>
