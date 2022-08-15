@@ -26,4 +26,6 @@
     <string name="type_value_text">Alcoholic</string>
     <string name="glass_type_field_text">Glass type</string>
     <string name="glass_type_value_text">Old-fashioned glass</string>
+    <string name="cocktail_ingredients_header">Ingredients</string>
+    <string name="how_to">How to</string>
 </resources>

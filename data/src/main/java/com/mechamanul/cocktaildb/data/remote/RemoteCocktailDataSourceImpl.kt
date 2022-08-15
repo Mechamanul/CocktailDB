@@ -2,6 +2,7 @@ package com.mechamanul.cocktaildb.data.remote
 
 import com.mechamanul.cocktaildb.data.repository.RemoteCocktailDataSource
 import com.mechamanul.cocktaildb.domain.Cocktail
+import com.mechamanul.cocktaildb.domain.Ingredient
 import com.mechamanul.cocktaildb.utils.Result
 import javax.inject.Inject
 
@@ -25,7 +26,8 @@ class RemoteCocktailDataSourceImpl @Inject constructor(private val cocktailServi
             category = category,
             type = type,
             glass = glass,
-            imageUrl = imageUrl
+            imageUrl = imageUrl,
+            listOfIngredients = listOf(Ingredient("Gin", "1/2oz"))
         )
     }
 }

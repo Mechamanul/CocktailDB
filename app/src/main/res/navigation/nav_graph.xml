@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentCocktail"
-        android:name="com.mechamanul.cocktaildb.ui.FragmentCocktail"
+        android:name="com.mechamanul.cocktaildb.ui.cocktail.screens.FragmentCocktailPage"
         android:label="fragment_cocktail"
-        tools:layout="@layout/fragment_cocktail" />
+        tools:layout="@layout/fragment_cocktail_page" />
 </navigation>
