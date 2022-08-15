@@ -8,3 +8,12 @@ java {
     sourceCompatibility = JavaVersion.VERSION_1_7
     targetCompatibility = JavaVersion.VERSION_1_7
 }
+
+dependencies {
+    implementation ("javax.inject:javax.inject:1")
+    implementation ("com.google.code.gson:gson:2.9.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
+    implementation project(path: ":domain")
+    implementation project(path: ":utils")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+}
