@@ -12,12 +12,13 @@ import com.mechamanul.cocktaildb.databinding.FragmentOnboardingBinding
 import com.mechamanul.cocktaildb.ui.onboarding.screens.FragmentFirstScreen
 import com.mechamanul.cocktaildb.ui.onboarding.screens.FragmentSecondScreen
 import com.mechamanul.cocktaildb.ui.onboarding.screens.FragmentThirdScreen
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class FragmentOnBoarding : Fragment(R.layout.fragment_onboarding) {
     override fun onCreate(savedInstanceState: Bundle?) {
         if (onBoardingCompleted()) {
-            findNavController().navigate(R.id.action_fragmentOnboarding_to_fragmentCocktail)
+            findNavController().navigate(R.id.action_fragmentOnboarding_to_fragmentCocktailBase)
         }
         super.onCreate(savedInstanceState)
     }

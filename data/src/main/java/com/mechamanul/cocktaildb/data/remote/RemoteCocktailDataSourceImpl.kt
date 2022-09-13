@@ -3,31 +3,36 @@ package com.mechamanul.cocktaildb.data.remote
 import com.mechamanul.cocktaildb.data.repository.RemoteCocktailDataSource
 import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.domain.Ingredient
-import com.mechamanul.cocktaildb.utils.Result
+import java.lang.Exception
 import javax.inject.Inject
 
 class RemoteCocktailDataSourceImpl @Inject constructor(private val cocktailService: CocktailService) :
     RemoteCocktailDataSource {
-    override suspend fun getRandomCocktail(): Result<Cocktail> {
+    override suspend fun getRandomCocktail(): Cocktail {
         val response = cocktailService.getRandomCocktail()
         if (response.isSuccessful) {
             val result = response.body()
+
             result?.let {
-                return Result.Success(it.mapToDomain())
-            } ?: Result.Error(throwable = Throwable("Error during api call"))
+                return it.drinks[0].mapToDomain()
+            }
+            throw Exception("Error during api call")
         }
-        return Result.Error(Throwable("Error with internet connection"))
+        throw Exception("Error during getting random cocktail")
+
     }
 
-    private fun CocktailResponse.mapToDomain(): Cocktail {
+
+    private fun Drink.mapToDomain(): Cocktail {
         return Cocktail(
-            id = id.toInt(),
+            id = id,
             name = name,
             category = category,
             type = type,
             glass = glass,
             imageUrl = imageUrl,
-            listOfIngredients = listOf(Ingredient("Gin", "1/2oz"))
+            instruction = instruction,
+            listOfIngredients = listOfIngredients
         )
     }
 }

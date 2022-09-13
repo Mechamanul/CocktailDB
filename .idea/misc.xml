@@ -5,15 +5,22 @@
       <map>
         <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/drawable/bottom_corners_rounded.xml" value="0.3585" />
         <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/drawable/cocktail_mojito_icon.xml" value="0.1" />
+        <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/drawable/corners_rounded.xml" value="0.3285" />
+        <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/drawable/corners_rounded_2.xml" value="0.3285" />
+        <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/drawable/corners_rounded_3.xml" value="0.3285" />
+        <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/drawable/corners_rounded_4.xml" value="0.333" />
         <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/drawable/ic_baseline_adb_24.xml" value="0.153" />
         <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/drawable/ic_launcher_background.xml" value="0.153" />
         <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/layout/abced.xml" value="0.25427350427350426" />
         <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/layout/activity_main.xml" value="0.11018518518518519" />
-        <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/layout/cocktail_ingredient.xml" value="0.3294871794871795" />
+        <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/layout/cocktail_ingredient.xml" value="0.33" />
         <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/layout/content_main.xml" value="0.2551282051282051" />
         <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/layout/fragment_cocktail.xml" value="0.67" />
-        <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/layout/fragment_cocktail_ingredients.xml" value="0.24188034188034188" />
+        <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/layout/fragment_cocktail_base.xml" value="0.1" />
+        <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/layout/fragment_cocktail_ingredients.xml" value="0.5" />
+        <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/layout/fragment_cocktail_page.xml" value="0.33" />
         <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/layout/fragment_cocktail_viewpager.xml" value="0.24188034188034188" />
+        <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/layout/fragment_loading.xml" value="0.4512820512820513" />
         <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/layout/fragment_onboarding.xml" value="0.12406015037593984" />
         <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/layout/fragment_onboarding_first_screen.xml" value="0.2551282051282051" />
         <entry key="..\:/Users/mecha/AndroidStudioProjects/CocktailDB/app/src/main/res/layout/fragment_onboarding_second_screen.xml" value="0.22" />

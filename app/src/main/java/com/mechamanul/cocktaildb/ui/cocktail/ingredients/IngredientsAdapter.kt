@@ -1,10 +1,11 @@
-package com.mechamanul.cocktaildb.ui.cocktail.screens.ingredients
+package com.mechamanul.cocktaildb.ui.cocktail.ingredients
 
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.CocktailIngredientBinding
 import com.mechamanul.cocktaildb.domain.Ingredient
 
@@ -23,7 +24,9 @@ class IngredientsAdapter : RecyclerView.Adapter<IngredientsAdapter.IngredientsVi
     }
 
     fun submit(newList: List<Ingredient>) {
+        Log.d("listInAdapter", newList.toString())
         listOfIngredients = newList
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientsViewHolder {
@@ -39,4 +42,5 @@ class IngredientsAdapter : RecyclerView.Adapter<IngredientsAdapter.IngredientsVi
     override fun getItemCount(): Int {
         return listOfIngredients.size
     }
+
 }

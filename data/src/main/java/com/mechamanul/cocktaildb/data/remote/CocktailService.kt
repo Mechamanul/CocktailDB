@@ -4,6 +4,6 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 interface CocktailService {
-    @GET("RandomCocktail")
+    @GET("random.php")
     suspend fun getRandomCocktail(): Response<CocktailResponse>
 }

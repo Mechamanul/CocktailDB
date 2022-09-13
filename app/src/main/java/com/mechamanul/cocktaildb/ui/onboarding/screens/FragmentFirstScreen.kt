@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.mechamanul.cocktaildb.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FragmentFirstScreen : Fragment(R.layout.fragment_onboarding_first_screen) {
 
 }

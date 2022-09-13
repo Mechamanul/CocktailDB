@@ -1,6 +1,10 @@
 package com.mechamanul.cocktaildb.di
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.mechamanul.cocktaildb.data.remote.CocktailResponse
 import com.mechamanul.cocktaildb.data.remote.CocktailService
+import com.mechamanul.cocktaildb.data.type_adapters.CocktailResponseDeserializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,16 +17,20 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RemoteModule {
 
-//    @Singleton
-//    @Provides
-//    fun provideOkHttp() = OkHttpClient.Builder().build()
 
 
+
+    // сделать интерцептор
     @Singleton
     @Provides
-    fun provideRetrofit() = Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("https://www.thecocktaildb.com/api/json/v1/1").build()
-
+    fun provideRetrofit(): Retrofit {
+        val gson = GsonBuilder().registerTypeAdapter(
+            CocktailResponse::class.java,
+            CocktailResponseDeserializer()
+        ).create()
+        return Retrofit.Builder().addConverterFactory(GsonConverterFactory.create(gson))
+            .baseUrl("https://www.thecocktaildb.com/api/json/v1/1/").build()
+    }
     @Singleton
     @Provides
     fun provideCocktailService(retrofit: Retrofit) = retrofit.create(CocktailService::class.java)

@@ -9,12 +9,12 @@
         android:name="com.mechamanul.cocktaildb.ui.onboarding.FragmentOnBoarding"
         android:label="FragmentOnboarding" >
         <action
-            android:id="@+id/action_fragmentOnboarding_to_fragmentCocktail"
-            app:destination="@id/fragmentCocktail" />
+            android:id="@+id/action_fragmentOnboarding_to_fragmentCocktailBase"
+            app:destination="@id/fragmentCocktailBase" />
     </fragment>
     <fragment
-        android:id="@+id/fragmentCocktail"
-        android:name="com.mechamanul.cocktaildb.ui.cocktail.screens.FragmentCocktailPage"
-        android:label="fragment_cocktail"
-        tools:layout="@layout/fragment_cocktail_page" />
+        android:id="@+id/fragmentCocktailBase"
+        android:name="com.mechamanul.cocktaildb.ui.cocktail.FragmentCocktailBase"
+        android:label="fragment_cocktail_base"
+        tools:layout="@layout/fragment_cocktail_base" />
 </navigation>

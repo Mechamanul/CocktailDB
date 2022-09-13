@@ -3,6 +3,12 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.7">
       <module name="CocktailDB.app" target="11" />
+      <module name="CocktailDB.data" target="1.8" />
+      <module name="CocktailDB.data.main" target="1.8" />
+      <module name="CocktailDB.data.test" target="1.8" />
+      <module name="CocktailDB.domain" target="1.8" />
+      <module name="CocktailDB.domain.main" target="1.8" />
+      <module name="CocktailDB.domain.test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

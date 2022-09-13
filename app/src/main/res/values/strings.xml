@@ -28,4 +28,7 @@
     <string name="glass_type_value_text">Old-fashioned glass</string>
     <string name="cocktail_ingredients_header">Ingredients</string>
     <string name="how_to">How to</string>
+    <string name="loading_title">Loading...</string>
+    <string name="id_placeholder">ID: 000000</string>
+    <string name="cocktail_name_placeholder">Long cocktail name</string>
 </resources>

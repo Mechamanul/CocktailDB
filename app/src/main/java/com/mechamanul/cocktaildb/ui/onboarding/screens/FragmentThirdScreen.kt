@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.FragmentOnboardingThirdScreenBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FragmentThirdScreen : Fragment(R.layout.fragment_onboarding_third_screen) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -17,7 +19,7 @@ class FragmentThirdScreen : Fragment(R.layout.fragment_onboarding_third_screen) 
         binding.apply {
             finishButton.setOnClickListener {
                 setOnBoardingCompleted()
-                findNavController().navigate(R.id.action_fragmentOnboarding_to_fragmentCocktail)
+                findNavController().navigate(R.id.action_fragmentOnboarding_to_fragmentCocktailBase)
             }
         }
     }
