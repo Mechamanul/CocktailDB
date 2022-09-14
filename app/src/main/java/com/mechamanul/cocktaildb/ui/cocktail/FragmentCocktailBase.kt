@@ -22,6 +22,9 @@ import com.mechamanul.cocktaildb.ui.cocktail.page.FragmentCocktailPage
 import com.mechamanul.cocktaildb.ui.cocktail.viewpager.CocktailViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
+import kotlin.reflect.typeOf
 
 @AndroidEntryPoint
 class FragmentCocktailBase : Fragment() {
@@ -62,16 +65,28 @@ class FragmentCocktailBase : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiFlow.collect { uiState ->
+                    binding.swipeRefreshLayout.isRefreshing = false
                     when (uiState) {
-                        is Failure -> Snackbar.make(
-                            binding.root,
-                            uiState.message,
-                            Snackbar.LENGTH_LONG
-                        ).show()
+                        is Failure -> {
+                            when (uiState.exception) {
+                                is UnknownHostException -> Snackbar.make(
+                                    binding.root,
+                                    "No internet connection",
+                                    Snackbar.LENGTH_LONG
+                                ).setAction("RETRY") {
+                                    viewModel.getRandomCocktail()
+                                }.show()
+                                else -> Snackbar.make(
+                                    binding.root,
+                                    uiState.exception.message.toString(),
+                                    Snackbar.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+
                         is Success -> binding.apply {
                             swipeRefreshLayout.visibility = View.VISIBLE
                             layoutLoading.root.visibility = View.GONE
-                            swipeRefreshLayout.isRefreshing = false
 //                            viewPager.apply {
 //                                adapter = viewPagerAdapter
 //                            }

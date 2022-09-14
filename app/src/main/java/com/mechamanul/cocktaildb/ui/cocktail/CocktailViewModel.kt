@@ -32,7 +32,7 @@ class CocktailViewModel @Inject constructor(private val getRandomCocktailUseCase
             Log.d("viewModel", cocktail.name)
             _uiFlow.value = Success(cocktail)
         } catch (e: Exception) {
-            _uiFlow.value = Failure(e.message ?: "Exception with empty message")
+            _uiFlow.value = Failure(e)
         }
 
     }
@@ -41,7 +41,7 @@ class CocktailViewModel @Inject constructor(private val getRandomCocktailUseCase
     sealed class CocktailUiState {
         object InitialLoading : CocktailUiState()
         data class Success(val cocktail: Cocktail) : CocktailUiState()
-        data class Failure(val message: String) : CocktailUiState()
+        data class Failure(val exception:Exception) : CocktailUiState()
     }
 
 }
