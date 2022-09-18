@@ -33,7 +33,7 @@ class FragmentCocktailBase : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         val binding = FragmentCocktailBaseBinding.inflate(inflater)
 
@@ -44,7 +44,7 @@ class FragmentCocktailBase : Fragment() {
         val viewModel: CocktailViewModel by activityViewModels()
         val binding = FragmentCocktailBaseBinding.bind(view)
         val viewPagerAdapter = CocktailViewPagerAdapter(
-            parentFragmentManager, viewLifecycleOwner.lifecycle,
+            childFragmentManager, viewLifecycleOwner.lifecycle,
             arrayListOf(FragmentCocktailPage(), FragmentCocktailIngredients())
         )
 

@@ -31,6 +31,7 @@ import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.FragmentCocktailPageBinding
@@ -46,7 +47,7 @@ class FragmentCocktailPage : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = FragmentCocktailPageBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -60,7 +61,13 @@ class FragmentCocktailPage : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val viewModel: CocktailViewModel by activityViewModels()
         val binding = FragmentCocktailPageBinding.bind(view)
-
+        binding.apply {
+            fab.setOnClickListener {
+                (it as FloatingActionButton).setImageResource(
+                    R.drawable.ic_baseline_favorite_56
+                )
+            }
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

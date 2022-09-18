@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E8E8E8"
+    android:background="?android:colorBackground"
     android:paddingHorizontal="24dp"
     tools:context=".ui.cocktail.ingredients.FragmentCocktailIngredients">
 
@@ -16,10 +16,9 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <View
-
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#F7F8FA"
+        android:background="?attr/stripeColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +29,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginVertical="36dp"
-        android:background="@drawable/corners_rounded_4"
+        android:background="@drawable/corners_rounded_36_color_surface"
         android:elevation="16dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/guideline_center_horizontal"
@@ -50,7 +49,6 @@
             android:fontFamily="@font/playfair_display_sc"
             android:text="@string/cocktail_ingredients_header"
             android:textAllCaps="true"
-            android:textColor="#202020"
             android:textSize="24sp" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -65,7 +63,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="36dp"
-        android:background="@drawable/corners_rounded_4"
+        android:background="@drawable/corners_rounded_36_color_surface"
         android:elevation="16dp"
         android:gravity="top|center"
         android:orientation="vertical"
@@ -83,7 +81,6 @@
             android:fontFamily="@font/playfair_display_sc"
             android:text="@string/how_to"
             android:textAllCaps="true"
-            android:textColor="#202020"
             android:textSize="24sp" />
 
         <TextView

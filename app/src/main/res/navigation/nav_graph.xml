@@ -6,9 +6,12 @@
     app:startDestination="@id/fragmentOnboarding">
     <fragment
         android:id="@+id/fragmentOnboarding"
+
         android:name="com.mechamanul.cocktaildb.ui.onboarding.FragmentOnBoarding"
         android:label="FragmentOnboarding" >
         <action
+            app:popUpTo="@id/fragmentOnboarding"
+            app:popUpToInclusive="true"
             android:id="@+id/action_fragmentOnboarding_to_fragmentCocktailBase"
             app:destination="@id/fragmentCocktailBase" />
     </fragment>
