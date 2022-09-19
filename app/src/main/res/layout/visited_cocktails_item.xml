@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="150dp"
+    android:layout_height="150dp">
 
     <androidx.constraintlayout.widget.Guideline
-        app:layout_constraintGuide_percent="0.5"
+        android:id="@+id/guideline_textview_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8" />
 
     <ImageView
+        android:id="@+id/cocktail_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:contentDescription="@string/visited_cocktail_image_content_description"
@@ -19,13 +21,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:elevation="2dp"
+        android:id="@+id/cocktail_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:autoSizeTextType="uniform"
         android:background="@drawable/corners_rounded_36_color_surface"
         android:fontFamily="@font/playfair_display_sc_bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_textview_start" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

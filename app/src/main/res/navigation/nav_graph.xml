@@ -9,15 +9,25 @@
 
         android:name="com.mechamanul.cocktaildb.ui.onboarding.FragmentOnBoarding"
         android:label="FragmentOnboarding" >
+
         <action
             app:popUpTo="@id/fragmentOnboarding"
             app:popUpToInclusive="true"
-            android:id="@+id/action_fragmentOnboarding_to_fragmentCocktailBase"
-            app:destination="@id/fragmentCocktailBase" />
+            android:id="@+id/action_fragmentOnboarding_to_fragmentStartPage"
+            app:destination="@id/fragmentStartPage" />
     </fragment>
     <fragment
         android:id="@+id/fragmentCocktailBase"
         android:name="com.mechamanul.cocktaildb.ui.cocktail.FragmentCocktailBase"
         android:label="fragment_cocktail_base"
         tools:layout="@layout/fragment_cocktail_base" />
+    <fragment
+        android:id="@+id/fragmentStartPage"
+        android:name="com.mechamanul.cocktaildb.ui.start_page.FragmentStartPage"
+        android:label="fragment_start_page"
+        tools:layout="@layout/fragment_start_page" >
+        <action
+            android:id="@+id/action_fragmentStartPage_to_fragmentCocktailBase"
+            app:destination="@id/fragmentCocktailBase" />
+    </fragment>
 </navigation>
