@@ -16,6 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CocktailViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val getRandomCocktailUseCase: getRandomCocktailUseCase
 ) :
     ViewModel() {

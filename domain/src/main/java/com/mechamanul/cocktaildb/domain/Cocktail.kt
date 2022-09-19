@@ -1,5 +1,6 @@
 package com.mechamanul.cocktaildb.domain
 
+
 data class Cocktail(
     val id: Int = 0,
     val name: String ,

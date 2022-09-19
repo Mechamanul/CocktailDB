@@ -32,4 +32,5 @@
     <string name="id_placeholder">ID: 000000</string>
     <string name="cocktail_name_placeholder">Long cocktail name</string>
     <string name="like_cocktail_button_content_discription">Like cocktail</string>
+    <string name="visited_cocktail_image_content_description">Cocktail image</string>
 </resources>
