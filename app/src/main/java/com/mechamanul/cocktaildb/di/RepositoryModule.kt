@@ -5,6 +5,7 @@ import com.mechamanul.cocktaildb.data.repository.CocktailRepositoryImpl
 import com.mechamanul.cocktaildb.data.repository.RemoteCocktailDataSource
 import com.mechamanul.cocktaildb.domain.CocktailRepository
 import dagger.Binds
+
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
