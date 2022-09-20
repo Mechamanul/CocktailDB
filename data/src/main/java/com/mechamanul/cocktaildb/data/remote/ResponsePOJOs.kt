@@ -1,6 +1,7 @@
 package com.mechamanul.cocktaildb.data.remote
 
 import com.google.gson.annotations.SerializedName
+import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.domain.Ingredient
 
 
@@ -15,7 +16,7 @@ data class Drink(
     val listOfIngredients: List<Ingredient>,
     )
 
-data class CocktailResponse(@SerializedName("drinks") val drinks: List<Drink>)
+data class CocktailResponse(@SerializedName("drinks") val drinks: List<Cocktail>)
 
 
 //    @SerializedName("strIngredient1") val ingredient1:String?,

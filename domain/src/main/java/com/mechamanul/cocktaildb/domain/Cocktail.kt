@@ -9,5 +9,5 @@ data class Cocktail(
     val glass: String ,
     val imageUrl: String ,
     val instruction:String,
-    val listOfIngredients: List<Ingredient> = listOf()
+    val listOfIngredients: List<Ingredient>
 )

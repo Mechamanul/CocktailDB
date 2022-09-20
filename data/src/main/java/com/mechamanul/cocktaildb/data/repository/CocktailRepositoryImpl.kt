@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
+import java.io.IOException
 import javax.inject.Inject
 
 
@@ -27,7 +28,7 @@ class CocktailRepositoryImpl @Inject constructor(
                 localDataSource.saveCocktailAndIngredientsToDatabase(cocktail)
                 return cocktail
             }
-            throw Exception(message = "Error during adding cocktail and ingredients to database")
+            throw IOException()
         } catch (e: Exception) {
             throw e
         }
