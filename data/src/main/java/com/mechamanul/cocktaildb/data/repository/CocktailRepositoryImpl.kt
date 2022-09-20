@@ -21,7 +21,16 @@ class CocktailRepositoryImpl @Inject constructor(
     }
 
     override suspend fun searchCocktailByName(name: String): Cocktail {
-        TODO("Not yet implemented")
+        try {
+            val foundedCocktail = remoteDataSource.searchCocktailByName(name)
+            foundedCocktail?.let { cocktail ->
+                localDataSource.saveCocktailAndIngredientsToDatabase(cocktail)
+                return cocktail
+            }
+            throw Exception(message = "Error during adding cocktail and ingredients to database")
+        } catch (e: Exception) {
+            throw e
+        }
     }
 
     override suspend fun getCocktailById(id: Int): Cocktail {

@@ -27,6 +27,21 @@ class RemoteCocktailDataSourceImpl @Inject constructor(private val cocktailServi
 
     }
 
+    override suspend fun searchCocktailByName(name: String): Cocktail? {
+        try {
+            val response = cocktailService.searchCocktailByName(name)
+            if (response.isSuccessful) {
+                val result = response.body()
+                result?.let {
+                    return it.drinks[0].mapToDomain()
+                }
+            }
+        } catch (e: Exception) {
+            throw e
+        }
+        throw Exception("Error during searching cocktail by name")
+    }
+
 
     private fun Drink.mapToDomain(): Cocktail {
         return Cocktail(

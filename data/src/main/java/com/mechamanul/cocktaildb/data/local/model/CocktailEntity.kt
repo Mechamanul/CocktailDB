@@ -5,11 +5,11 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "cocktails")
 data class CocktailEntity(
-    @PrimaryKey val id:Int,
-    val name: String ,
-    val category: String ,
-    val type: String ,
-    val glass: String ,
-    val imageUrl: String ,
-    val instruction:String,
-)
+    @PrimaryKey(autoGenerate = false) val cocktailId: Long,
+    val name: String,
+    val category: String,
+    val type: String,
+    val glass: String,
+    val imageUrl: String,
+    val instruction: String,
+    )

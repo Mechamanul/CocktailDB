@@ -58,7 +58,9 @@ class FragmentStartPage : Fragment(), IImplementImageDrawerCallback {
                         is Success -> {
                             // TODO: fix navigation here(somehow argument constructor is wrong)
                             val action =
-                                FragmentStartPageDirections.actionFragmentStartPageToFragmentCocktailBase()
+                                FragmentStartPageDirections.actionFragmentStartPageToFragmentCocktailBase(
+                                    event.cocktail.id
+                                )
                             findNavController().navigate(action)
                         }
                         is VisitedCocktailsLoaded -> adapter.submitList(event.cocktails)
