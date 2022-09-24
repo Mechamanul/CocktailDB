@@ -4,7 +4,7 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.mechamanul.cocktaildb.data.remote.CocktailResponse
-import com.mechamanul.cocktaildb.data.remote.Drink
+import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.domain.Ingredient
 import java.lang.reflect.Type
 import javax.inject.Inject
@@ -25,7 +25,7 @@ class CocktailResponseDeserializer @Inject constructor() : JsonDeserializer<Cock
     }
 
 
-    fun deserializeListOfDrinks(json: JsonElement?): List<Drink> {
+    fun deserializeListOfDrinks(json: JsonElement?): List<Cocktail> {
         val listJsonArray = json?.asJsonArray
         return listJsonArray?.map { drinkJsonElement ->
             val drinkJsonObject = drinkJsonElement.asJsonObject
@@ -46,14 +46,14 @@ class CocktailResponseDeserializer @Inject constructor() : JsonDeserializer<Cock
                     Ingredient(ingredientName.asString, "")
                 }
             } ?: listOf()
-            Drink(
-                drinkJsonObject["idDrink"].asInt,
-                drinkJsonObject["strDrink"].asString,
-                drinkJsonObject["strCategory"].asString,
-                drinkJsonObject["strAlcoholic"].asString,
-                drinkJsonObject["strGlass"].asString,
-                drinkJsonObject["strInstructions"].asString,
-                drinkJsonObject["strDrinkThumb"].asString,
+            Cocktail(
+                id = drinkJsonObject["idDrink"].asInt,
+                name = drinkJsonObject["strDrink"].asString,
+                category = drinkJsonObject["strCategory"].asString,
+                type = drinkJsonObject["strAlcoholic"].asString,
+                glass = drinkJsonObject["strGlass"].asString,
+                instruction = drinkJsonObject["strInstructions"].asString,
+                imageUrl = drinkJsonObject["strDrinkThumb"].asString,
                 listOfIngredients = listOfIngredients
             )
         } ?: listOf()

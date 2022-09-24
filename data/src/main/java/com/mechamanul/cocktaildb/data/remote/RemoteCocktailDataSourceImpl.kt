@@ -2,8 +2,6 @@ package com.mechamanul.cocktaildb.data.remote
 
 import com.mechamanul.cocktaildb.data.repository.RemoteCocktailDataSource
 import com.mechamanul.cocktaildb.domain.Cocktail
-import com.mechamanul.cocktaildb.domain.Ingredient
-import java.net.SocketTimeoutException
 import javax.inject.Inject
 import kotlin.Exception
 
@@ -16,7 +14,7 @@ class RemoteCocktailDataSourceImpl @Inject constructor(private val cocktailServi
                 val result = response.body()
 
                 result?.let {
-                    return it.drinks[0].mapToDomain()
+                    return it.cocktails[0]
                 }
             }
 
@@ -33,7 +31,7 @@ class RemoteCocktailDataSourceImpl @Inject constructor(private val cocktailServi
             if (response.isSuccessful) {
                 val result = response.body()
                 result?.let {
-                    return it.drinks[0].mapToDomain()
+                    return it.cocktails[0]
                 }
             }
         } catch (e: Exception) {
@@ -43,16 +41,16 @@ class RemoteCocktailDataSourceImpl @Inject constructor(private val cocktailServi
     }
 
 
-    private fun Drink.mapToDomain(): Cocktail {
-        return Cocktail(
-            id = id,
-            name = name,
-            category = category,
-            type = type,
-            glass = glass,
-            imageUrl = imageUrl,
-            instruction = instruction,
-            listOfIngredients = listOfIngredients
-        )
-    }
+//    private fun Drink.mapToDomain(): Cocktail {
+//        return Cocktail(
+//            id = id,
+//            name = name,
+//            category = category,
+//            type = type,
+//            glass = glass,
+//            imageUrl = imageUrl,
+//            instruction = instruction,
+//            listOfIngredients = listOfIngredients
+//        )
+//    }
 }
