@@ -1,20 +1,10 @@
 package com.mechamanul.cocktaildb.data.remote
 
-import com.mechamanul.cocktaildb.data.remote.testutils.createTestCocktail
-import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit4.MockKRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Test
 
-import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertSame
-import org.junit.Before
 import org.junit.Rule
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.create
 
 
 @ExperimentalCoroutinesApi

@@ -6,6 +6,7 @@ import com.google.gson.JsonElement
 import com.mechamanul.cocktaildb.data.remote.CocktailResponse
 import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.domain.Ingredient
+import com.mechamanul.cocktaildb.utils.JsonDeserializationError
 import java.lang.reflect.Type
 import javax.inject.Inject
 
@@ -19,8 +20,8 @@ class CocktailResponseDeserializer @Inject constructor() : JsonDeserializer<Cock
         val result: CocktailResponse = CocktailResponse(jo?.let { jo ->
             jo.get("drinks")?.let {
                 deserializeListOfDrinks(it)
-            } ?: throw Exception("Problem occured when tried to acces drink field")
-        } ?: throw Exception("Problem occured at the start of deserialization"))
+            } ?: throw JsonDeserializationError("Problem occurred when tried to access drink field")
+        } ?: throw JsonDeserializationError("Problem occurred at the start of deserialization"))
         return result
     }
 
@@ -37,7 +38,6 @@ class CocktailResponseDeserializer @Inject constructor() : JsonDeserializer<Cock
                 val ingredientName = it.value[0].value
                 !ingredientName.isJsonNull
             }?.map {
-                println(it.value)
                 val ingredientName = it.value[0].value
                 val measure = it.value[1].value
                 if (!measure.isJsonNull) {

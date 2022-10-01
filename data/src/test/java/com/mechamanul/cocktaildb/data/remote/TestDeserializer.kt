@@ -1,19 +1,34 @@
 package com.mechamanul.cocktaildb.data.remote
 
 import com.google.gson.*
-import com.mechamanul.cocktaildb.data.remote.testutils.createTestCocktail
-import com.mechamanul.cocktaildb.data.remote.testutils.provideJSONCocktailAPICallExample
+import com.google.gson.stream.JsonReader
+import com.mechamanul.cocktaildb.data.remote.testutils.createSimpleTestCocktail
+import com.mechamanul.cocktaildb.data.remote.testutils.createTestCocktailNoMeasures
 import com.mechamanul.cocktaildb.data.type_adapters.CocktailResponseDeserializer
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.Assert
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
-import org.mockito.invocation.InvocationOnMock
+import java.io.File
+import java.io.InputStreamReader
 
+
+const val relativePathToTestJsons = "src/test/java/com/mechamanul/cocktaildb/data/remote/testutils"
 
 class TestDeserializer {
-
+    private fun getTestJsonByFilename(filename: String): JsonElement {
+        val reader: JsonReader =
+            JsonReader(
+                InputStreamReader(
+                    File(
+                        "$relativePathToTestJsons/$filename.json"
+                    ).inputStream(),
+                    "UTF-8"
+                )
+            )
+        return JsonParser.parseReader(reader)
+    }
 
     @Test
     fun testDeserializeDirectly() {
@@ -28,49 +43,52 @@ class TestDeserializer {
             jsonElement.asJsonPrimitive.asString
         }
         val deserializer = CocktailResponseDeserializer()
-        val element = JsonParser.parseString(provideJSONCocktailAPICallExample())
+        val element = getTestJsonByFilename("simpleResponseTest")
         val deserializationResult =
             deserializer.deserialize(element, CocktailResponse::class.java, mockedContext)
-        assertEquals(deserializationResult.cocktails[0], createTestCocktail())
+        assertEquals(deserializationResult.cocktails[0], createSimpleTestCocktail())
+    }
+
+
+    private lateinit var gson: Gson
+
+    @Before
+    fun initGson() {
+        val deserializer = CocktailResponseDeserializer()
+        gson =
+            GsonBuilder().registerTypeAdapter(CocktailResponse::class.java, deserializer).create()
     }
 
     @Test
-    fun testDeserializationIndirectly() {
-
+    fun testDeserializeIndirectlyViaAutomaticTypeAdapterBinding() {
+        val deserializationResult =
+            gson.fromJson(
+                getTestJsonByFilename("simpleResponseTest"), CocktailResponse::class.java
+            )
+        assertEquals(deserializationResult.cocktails[0], createSimpleTestCocktail())
     }
 
-//    @Test
-//    @Throws(IOException::class)
-//    fun testDeserializeDirectlyWithMockedContext() {
-//        val unit: JsonDeserializer<ZonedDateTime> = getZonedDateTimeJsonDeserializer()
-//        val mockContext: JsonDeserializationContext = mock(JsonDeserializationContext::class.java)
-//        `when`(
-//            mockContext.deserialize(
-//                any(JsonElement::class.java),
-//                eq(String::class.java)
-//            )
-//        ).thenAnswer(
-//            Answer<Any> { iom: InvocationOnMock ->
-//                val jsonElement = iom.arguments[0] as JsonElement
-//                jsonElement.asJsonPrimitive.asString
-//            })
-//        val parser = JsonParser(
-//
-//            getPackageResourceJsonReader(
-//                ZonedDateTimeJsonDeserializerTest::class.java,
-//                "zoned-date-time.json"
-//            ).use { jsonReader ->
-//                val jsonElement: JsonElement = parser.parse(jsonReader)
-//                val actualZonedDateTime: ZonedDateTime = unit.deserialize(
-//                    jsonElement,
-//                    ZonedDateTime::class.java, mockContext
-//                )
-//                assertThat(actualZonedDateTime, `is`(expectedZonedDateTime))
-//            }
-//                    verify (mockContext).deserialize(
-//                any(JsonPrimitive::class.java),
-//                eq(String::class.java)
-//            )
-//                    verifyNoMoreInteractions (mockContext)
-//    }
+    @Test(expected = JsonSyntaxException::class)
+    fun testThrowsErrorOnWrongJson() {
+        val apiCallJsonAsString = getTestJsonByFilename("simpleResponseTest").asString
+        //corrupt hierarchy
+        val wrongJson = apiCallJsonAsString.removeRange(
+            apiCallJsonAsString.length - 4,
+            apiCallJsonAsString.length - 1
+        )
+        println(wrongJson)
+        gson.fromJson(wrongJson, CocktailResponse::class.java)
+    }
+
+    @Test
+    fun deserializeCorrectlyWhenIngredientHaveNoMeasure() {
+        val testCocktail = createTestCocktailNoMeasures()
+        val deserializationResult = gson.fromJson(
+            getTestJsonByFilename("noMeasureResponseTest"),
+            CocktailResponse::class.java
+        )
+        assertEquals(testCocktail, deserializationResult.cocktails[0])
+    }
+
+
 }

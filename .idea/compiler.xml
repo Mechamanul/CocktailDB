@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="1.7">
-      <module name="CocktailDB.app" target="11" />
-      <module name="CocktailDB.data" target="11" />
-      <module name="CocktailDB.data.main" target="1.8" />
-      <module name="CocktailDB.data.test" target="1.8" />
-      <module name="CocktailDB.domain" target="1.8" />
-      <module name="CocktailDB.domain.main" target="1.8" />
-      <module name="CocktailDB.domain.test" target="1.8" />
-      <module name="CocktailDB.librarytest" target="11" />
-    </bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.7" />
   </component>
 </project>
