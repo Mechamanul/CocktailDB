@@ -12,4 +12,4 @@ data class CocktailEntity(
     val glass: String,
     val imageUrl: String,
     val instruction: String,
-    )
+)

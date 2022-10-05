@@ -46,7 +46,7 @@ class TestDeserializer {
         val element = getTestJsonByFilename("simpleResponseTest")
         val deserializationResult =
             deserializer.deserialize(element, CocktailResponse::class.java, mockedContext)
-        assertEquals(deserializationResult.cocktails[0], createSimpleTestCocktail())
+        assertEquals(deserializationResult.cocktails!![0], createSimpleTestCocktail())
     }
 
 
@@ -65,7 +65,7 @@ class TestDeserializer {
             gson.fromJson(
                 getTestJsonByFilename("simpleResponseTest"), CocktailResponse::class.java
             )
-        assertEquals(deserializationResult.cocktails[0], createSimpleTestCocktail())
+        assertEquals(deserializationResult.cocktails!![0], createSimpleTestCocktail())
     }
 
     @Test(expected = JsonSyntaxException::class)
@@ -87,7 +87,7 @@ class TestDeserializer {
             getTestJsonByFilename("noMeasureResponseTest"),
             CocktailResponse::class.java
         )
-        assertEquals(testCocktail, deserializationResult.cocktails[0])
+        assertEquals(testCocktail, deserializationResult.cocktails!![0])
     }
 
 

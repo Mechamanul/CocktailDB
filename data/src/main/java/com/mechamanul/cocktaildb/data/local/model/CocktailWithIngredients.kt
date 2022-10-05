@@ -12,5 +12,12 @@ data class CocktailWithIngredients(
         entityColumn = "ingredientId",
         associateBy = Junction(CocktailIngredientsCrossRef::class)
     )
-    val ingredients: List<IngredientEntity>
+    val ingredients: List<IngredientEntity>,
+
+    @Relation(
+        entity = CocktailIngredientsCrossRef::class,
+        parentColumn = "cocktailId",
+        entityColumn = "cocktailId"
+    )
+    val crossRefs:List<CocktailIngredientsCrossRef>
 )

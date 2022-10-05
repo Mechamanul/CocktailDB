@@ -9,6 +9,5 @@ data class IngredientEntity(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(
         index = true
     ) val ingredientId: Long = 0L,
-    val name: String,
-    val measure: String
+     val name: String
 )

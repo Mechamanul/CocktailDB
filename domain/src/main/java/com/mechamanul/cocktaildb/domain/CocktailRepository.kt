@@ -1,10 +1,10 @@
 package com.mechamanul.cocktaildb.domain
 
-import kotlinx.coroutines.flow.Flow
+import com.mechamanul.cocktaildb.utils.Result
 
 interface CocktailRepository {
-    suspend fun getRandomCocktail(): Cocktail
-    suspend fun searchCocktailByName(name: String): Cocktail
+    suspend fun getRandomCocktail(): Result<Cocktail>
+    suspend fun searchCocktailByName(name: String): Result<Cocktail>
     suspend fun getCocktailById(id: Int): Cocktail
     suspend fun getVisitedCocktailsList(): List<Cocktail>
 }

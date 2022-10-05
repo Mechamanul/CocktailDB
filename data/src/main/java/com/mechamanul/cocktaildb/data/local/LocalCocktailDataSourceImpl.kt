@@ -2,11 +2,13 @@ package com.mechamanul.cocktaildb.data.local
 
 import com.mechamanul.cocktaildb.data.local.dao.CocktailDao
 import com.mechamanul.cocktaildb.data.local.model.CocktailEntity
+import com.mechamanul.cocktaildb.data.local.model.CocktailIngredientsCrossRef
 import com.mechamanul.cocktaildb.data.local.model.CocktailWithIngredients
 import com.mechamanul.cocktaildb.data.local.model.IngredientEntity
 import com.mechamanul.cocktaildb.data.repository.LocalCocktailDataSource
 import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.domain.Ingredient
+import java.io.IOException
 import javax.inject.Inject
 
 class LocalCocktailDataSourceImpl @Inject constructor(private val cocktailDao: CocktailDao) :
@@ -16,18 +18,15 @@ class LocalCocktailDataSourceImpl @Inject constructor(private val cocktailDao: C
             .map { cocktailWithIngredients -> cocktailWithIngredients.mapToDomain() }
     }
 
-    override suspend fun saveCocktailAndIngredientsToDatabase(cocktail: Cocktail): Boolean {
-        try {
-            val cocktailEntity = cocktail.mapFromDomain()
-            cocktailDao.insertCocktail(cocktailEntity)
-            cocktail.listOfIngredients.forEach {
-                cocktailDao.insertIngredient(IngredientEntity(name = it.name, measure = it.measure))
-            }
-            return true
-        } catch (e: Exception) {
-            throw e
-        }
+    override suspend fun saveCocktailAndIngredientsToDatabase(cocktail: Cocktail) {
+        cocktailDao.insertCocktailWithIngredients(
+            cocktail.mapFromDomain(),
+            cocktail.listOfIngredients.associate { it.name to it.measure }
+        )
+    }
 
+    override suspend fun getCocktailById(id: Int): Cocktail {
+        return cocktailDao.getCocktailById(id).mapToDomain()
     }
 
     private fun CocktailWithIngredients.mapToDomain(): Cocktail {
@@ -40,11 +39,26 @@ class LocalCocktailDataSourceImpl @Inject constructor(private val cocktailDao: C
             glass = cocktail.glass,
             imageUrl = cocktail.imageUrl,
             instruction = cocktail.instruction,
-            listOfIngredients = ingredients.map { ingredientEntity -> ingredientEntity.mapToDomain() }
+            listOfIngredients = mergeCrossRefWithIngredients(crossRefs, ingredients)
         )
 
     }
 
+    private fun mergeCrossRefWithIngredients(
+        crossRefs: List<CocktailIngredientsCrossRef>,
+        ingredients: List<IngredientEntity>
+    ): List<Ingredient> {
+        val refsAssociated = crossRefs.associateBy { it.ingredientId }
+        val ingredientsAssociated = ingredients.associateBy { it.ingredientId }
+        return refsAssociated.map { refEntry ->
+            ingredientsAssociated[refEntry.key]?.let { ingredientEntity ->
+                Ingredient(
+                    ingredientEntity.name, refEntry.value.measure
+                )
+            } ?: throw IOException("Amount of crossrefs is not equal to amount of ingredients")
+        }
+
+    }
 
     private fun Cocktail.mapFromDomain(): CocktailEntity {
         return CocktailEntity(
@@ -58,7 +72,4 @@ class LocalCocktailDataSourceImpl @Inject constructor(private val cocktailDao: C
         )
     }
 
-    private fun IngredientEntity.mapToDomain(): Ingredient {
-        return Ingredient(name = name, measure = measure)
-    }
 }

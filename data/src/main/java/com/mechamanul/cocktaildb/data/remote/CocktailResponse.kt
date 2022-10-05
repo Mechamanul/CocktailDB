@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.mechamanul.cocktaildb.domain.Cocktail
 
 
-data class CocktailResponse(@SerializedName("drinks") val cocktails: List<Cocktail>)
+data class CocktailResponse(@SerializedName("drinks") val cocktails: List<Cocktail>?)
 
 
 //    @SerializedName("strIngredient1") val ingredient1:String?,

@@ -3,6 +3,7 @@ package com.mechamanul.cocktaildb.data.remote
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit4.MockKRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 
 import org.junit.Rule
 
@@ -17,7 +18,7 @@ class CocktailsServiceTest {
     // протестировать GSON
     // потом уже тестировать retrofit
     @MockK
-    lateinit var cocktailService: CocktailService
+    lateinit var cocktailService: CocktailApi
 
 //    @Before
 //    fun createRemoteDataSource() {

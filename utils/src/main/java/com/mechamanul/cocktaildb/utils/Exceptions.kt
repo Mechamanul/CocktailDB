@@ -6,6 +6,10 @@ open class AppException : RuntimeException {
     constructor(cause: Throwable) : super(cause)
 }
 
-class JsonDeserializationError(message: String) : AppException(message)
+class JsonDeserializationException(message: String) : AppException(message)
 
 class ConnectionException(cause: Throwable) : AppException(cause)
+
+class EmptyRetrofitResultException(message: String) : AppException(message)
+
+

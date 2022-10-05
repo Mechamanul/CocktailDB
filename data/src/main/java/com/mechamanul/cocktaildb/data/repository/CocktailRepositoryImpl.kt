@@ -2,12 +2,7 @@ package com.mechamanul.cocktaildb.data.repository
 
 import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.domain.CocktailRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.withContext
-import java.io.IOException
+import com.mechamanul.cocktaildb.utils.Result
 import javax.inject.Inject
 
 
@@ -16,26 +11,26 @@ class CocktailRepositoryImpl @Inject constructor(
     private val localDataSource: LocalCocktailDataSource
 ) :
     CocktailRepository {
-    override suspend fun getRandomCocktail(): Cocktail {
-        return remoteDataSource.getRandomCocktail()
-
+    override suspend fun getRandomCocktail(): Result<Cocktail> {
+        return try {
+            val cocktail = remoteDataSource.getRandomCocktail()
+            Result.Success(cocktail)
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
     }
 
-    override suspend fun searchCocktailByName(name: String): Cocktail {
-        try {
-            val foundedCocktail = remoteDataSource.searchCocktailByName(name)
-            foundedCocktail?.let { cocktail ->
-                localDataSource.saveCocktailAndIngredientsToDatabase(cocktail)
-                return cocktail
-            }
-            throw IOException()
+    override suspend fun searchCocktailByName(name: String): Result<Cocktail> {
+        return try {
+            val cocktail = remoteDataSource.searchCocktailByName(name)
+            Result.Success(cocktail)
         } catch (e: Exception) {
-            throw e
+            Result.Error(e)
         }
     }
 
     override suspend fun getCocktailById(id: Int): Cocktail {
-        TODO("Not yet implemented")
+        return localDataSource.getCocktailById(id)
     }
 
     override suspend fun getVisitedCocktailsList(): List<Cocktail> {

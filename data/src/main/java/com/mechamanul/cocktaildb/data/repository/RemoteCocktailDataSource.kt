@@ -5,5 +5,5 @@ import com.mechamanul.cocktaildb.domain.Ingredient
 
 interface RemoteCocktailDataSource {
     suspend fun getRandomCocktail(): Cocktail
-    suspend fun searchCocktailByName(name: String): Cocktail?
+    suspend fun searchCocktailByName(name: String): Cocktail
 }
