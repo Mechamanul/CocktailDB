@@ -7,7 +7,13 @@
     android:padding="24dp"
     tools:context=".ui.start_page.FragmentStartPage">
 
-    <EditText
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/search_cocktail"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -15,6 +21,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.6" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/suggestions_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/corners_rounded_36_color_surface"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_cocktail" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/visited_cocktails_rv"

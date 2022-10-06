@@ -24,13 +24,12 @@ class RemoteCocktailDataSourceImpl @Inject constructor(
     }
 
 
-    override suspend fun searchCocktailByName(name: String): Cocktail = wrapRetrofitExceptions {
-        val response = cocktailApi.searchCocktailByName(name)
-        response.cocktails?.let {
-            it[0]
+    override suspend fun searchCocktailByName(name: String): List<Cocktail> =
+        wrapRetrofitExceptions {
+            val response = cocktailApi.searchCocktailByName(name)
+            response.cocktails
+                ?: throw EmptyRetrofitResultException("Drinks with given name was not found")
         }
-        throw EmptyRetrofitResultException("Drinks with given name was not found")
-    }
 
     private suspend fun <T> wrapRetrofitExceptions(block: suspend () -> T): T {
         return try {

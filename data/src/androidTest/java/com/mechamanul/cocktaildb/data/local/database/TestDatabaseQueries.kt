@@ -7,6 +7,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mechamanul.cocktaildb.data.local.LocalCocktailDataSourceImpl
 import com.mechamanul.cocktaildb.data.local.dao.CocktailDao
 import com.mechamanul.cocktaildb.data.local.model.CocktailEntity
+import com.mechamanul.cocktaildb.data.local.model.CocktailWithIngredients
 import com.mechamanul.cocktaildb.data.repository.LocalCocktailDataSource
 import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.domain.Ingredient
@@ -64,6 +65,12 @@ class TestDatabaseQueries {
         assertEquals(cocktailFromDatabase.cocktail, cocktailEntity)
     }
 
+
+    @Test
+    fun visitedCocktailReturnsEmptyListWhenNoCocktailsInserted() = runTest {
+        val cocktails = cocktailDao.getVisitedCocktails()
+        assertEquals(cocktails, listOf<CocktailWithIngredients>())
+    }
 
     @Test
     fun writesCocktailFromDomainAndReadsIt() = runTest {

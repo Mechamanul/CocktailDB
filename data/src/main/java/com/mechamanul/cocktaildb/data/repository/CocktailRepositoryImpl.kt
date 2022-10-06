@@ -20,10 +20,10 @@ class CocktailRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun searchCocktailByName(name: String): Result<Cocktail> {
+    override suspend fun searchCocktailByName(name: String): Result<List<Cocktail>> {
         return try {
-            val cocktail = remoteDataSource.searchCocktailByName(name)
-            Result.Success(cocktail)
+            val cocktails = remoteDataSource.searchCocktailByName(name)
+            Result.Success(cocktails)
         } catch (e: Exception) {
             Result.Error(e)
         }
@@ -33,8 +33,9 @@ class CocktailRepositoryImpl @Inject constructor(
         return localDataSource.getCocktailById(id)
     }
 
-    override suspend fun getVisitedCocktailsList(): List<Cocktail> {
-        return localDataSource.getVisitedCocktails()
+    override suspend fun getVisitedCocktailsList(): Result<List<Cocktail>> {
+        val cocktails =  localDataSource.getVisitedCocktails()
+        return Result.Success(cocktails)
     }
 
 }
