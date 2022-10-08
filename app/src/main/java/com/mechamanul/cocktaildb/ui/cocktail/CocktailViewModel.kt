@@ -8,8 +8,10 @@ import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.domain.getRandomCocktailUseCase
 import com.mechamanul.cocktaildb.ui.cocktail.CocktailViewModel.CocktailUiState.Failure
 import com.mechamanul.cocktaildb.ui.cocktail.CocktailViewModel.CocktailUiState.Success
+import com.mechamanul.cocktaildb.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,17 +27,15 @@ class CocktailViewModel @Inject constructor(
     val uiFlow: StateFlow<CocktailUiState> = _uiFlow
 
     init {
-        Log.d("viewModelInitialized", this@CocktailViewModel.hashCode().toString())
         getRandomCocktail()
     }
 
 
     fun getRandomCocktail() = viewModelScope.launch {
-        try {
-            val cocktail = getRandomCocktailUseCase.invoke()
-            _uiFlow.value = Success(cocktail)
-        } catch (e: Exception) {
-            _uiFlow.value = Failure(e)
+        val apiResult = getRandomCocktailUseCase.invoke()
+        _uiFlow.value = when (apiResult) {
+            is Result.Error -> Failure(apiResult.exception)
+            is Result.Success -> Success(apiResult.data)
         }
 
     }

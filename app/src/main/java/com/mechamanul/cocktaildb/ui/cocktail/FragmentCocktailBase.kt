@@ -7,14 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
-import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.FragmentCocktailBaseBinding
 import com.mechamanul.cocktaildb.ui.cocktail.CocktailViewModel.CocktailUiState.*
 import com.mechamanul.cocktaildb.ui.cocktail.ingredients.FragmentCocktailIngredients
@@ -22,9 +19,7 @@ import com.mechamanul.cocktaildb.ui.cocktail.page.FragmentCocktailPage
 import com.mechamanul.cocktaildb.ui.cocktail.viewpager.CocktailViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.net.SocketTimeoutException
 import java.net.UnknownHostException
-import kotlin.reflect.typeOf
 
 @AndroidEntryPoint
 class FragmentCocktailBase : Fragment() {

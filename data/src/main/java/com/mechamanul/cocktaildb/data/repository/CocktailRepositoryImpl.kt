@@ -2,6 +2,7 @@ package com.mechamanul.cocktaildb.data.repository
 
 import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.domain.CocktailRepository
+import com.mechamanul.cocktaildb.utils.AppException
 import com.mechamanul.cocktaildb.utils.Result
 import javax.inject.Inject
 
@@ -15,7 +16,7 @@ class CocktailRepositoryImpl @Inject constructor(
         return try {
             val cocktail = remoteDataSource.getRandomCocktail()
             Result.Success(cocktail)
-        } catch (e: Exception) {
+        } catch (e: AppException) {
             Result.Error(e)
         }
     }
@@ -24,7 +25,7 @@ class CocktailRepositoryImpl @Inject constructor(
         return try {
             val cocktails = remoteDataSource.searchCocktailByName(name)
             Result.Success(cocktails)
-        } catch (e: Exception) {
+        } catch (e: AppException) {
             Result.Error(e)
         }
     }

@@ -5,29 +5,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.fragment.app.Fragment
+import androidx.appcompat.widget.SearchView.*
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.snackbar.Snackbar
-import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.FragmentStartPageBinding
-import com.mechamanul.cocktaildb.ui.start_page.StartPageViewModel.StartPageEvents.CocktailSearchResult.Failure
-import com.mechamanul.cocktaildb.ui.start_page.StartPageViewModel.StartPageEvents.CocktailSearchResult.Success
-import com.mechamanul.cocktaildb.ui.start_page.StartPageViewModel.StartPageEvents.VisitedCocktailsLoaded
+import com.mechamanul.cocktaildb.ui.BaseFragment
+import com.mechamanul.cocktaildb.ui.start_page.StartPageViewModel.UiEvent.*
+import com.mechamanul.cocktaildb.utils.ConnectionException
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class FragmentStartPage : Fragment(), IImplementImageDrawerCallback {
+class FragmentStartPage : BaseFragment(), IImplementImageDrawerCallback {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,41 +37,88 @@ class FragmentStartPage : Fragment(), IImplementImageDrawerCallback {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val viewModel: StartPageViewModel by viewModels()
-        val adapter = VisitedCocktailsAdapter(this)
+        val visitedCocktailsAdapter = VisitedCocktailsAdapter(this)
+        val suggestionsAdapter = SuggestionsListAdapter()
         val binding = FragmentStartPageBinding.bind(view)
         binding.apply {
-            visitedCocktailsRv.adapter = adapter
-        }
+            visitedCocktailsRv.adapter = visitedCocktailsAdapter
+            suggestionsList.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            suggestionsList.adapter = suggestionsAdapter
+            suggestionsList.visibility = View.GONE
+            searchCocktail.setOnQueryTextListener(object : OnQueryTextListener {
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiEvents.collect { event ->
-                    when (event) {
-                        is Failure -> Snackbar.make(
-                            binding.root,
-                            event.exception.message.toString(),
-                            Snackbar.LENGTH_LONG
-                        ).show()
-                        is Success -> {
-                            // TODO: fix navigation here(somehow argument constructor is wrong)
-                            val action =
-                                FragmentStartPageDirections.actionFragmentStartPageToFragmentCocktailBase(
-                                    event.cocktail.id
-                                )
-                            findNavController().navigate(action)
-                        }
-                        is VisitedCocktailsLoaded -> adapter.submitList(event.cocktails)
+                var queryTextChangedJob: Job? = null
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    query ?: return false
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        viewModel.searchCocktailByName(query)
                     }
+                    return true
                 }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    newText ?: return false
+                    queryTextChangedJob?.cancel()
+                    queryTextChangedJob = viewLifecycleOwner.lifecycleScope.launch {
+                        delay(500)
+                        viewModel.searchCocktailByName(newText)
+                    }
+                    return true
+                }
+
+            })
+            searchCocktail.setOnCloseListener {
+                suggestionsList.visibility = View.GONE
+                false
             }
 
-            super.onViewCreated(view, savedInstanceState)
+            viewLifecycleOwner.lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.uiEvents.collect { event ->
+                        when (event) {
+                            is CocktailSearchResult -> when (event) {
+                                is CocktailSearchResult.Failure -> {
+                                    val snackbar = handleExceptions(event.exception, binding.root)
+                                    if (event.exception is ConnectionException) {
+                                        snackbar.setAction("Retry") {
+                                            this.launch {
+                                                viewModel.searchCocktailByName("name")
+                                            }
+                                        }
+                                    }
+                                    snackbar.show()
+                                }
+                                is CocktailSearchResult.Success -> {
+                                    suggestionsList.visibility = View.VISIBLE
+                                    suggestionsAdapter.submitList(
+                                        event.cocktails
+                                    )
+                                }
+                            }
+                            is GetVisitedCocktailResult -> when (event) {
+                                is GetVisitedCocktailResult.Failure -> handleExceptions(
+                                    event.exception,
+                                    binding.root
+                                ).show()
+                                is GetVisitedCocktailResult.Success -> visitedCocktailsAdapter.submitList(
+                                    event.cocktails
+                                )
+                            }
+                        }
+                    }
+                }
+
+                super.onViewCreated(view, savedInstanceState)
+            }
+
+
         }
-
-
     }
+
 
     override fun drawImageCallback(imageView: ImageView, url: String) {
         Glide.with(requireContext()).asBitmap()

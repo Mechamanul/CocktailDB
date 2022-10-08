@@ -3,8 +3,6 @@ package com.mechamanul.cocktaildb.ui.cocktail.ingredients
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mechamanul.cocktaildb.databinding.CocktailIngredientBinding
 import com.mechamanul.cocktaildb.domain.Ingredient

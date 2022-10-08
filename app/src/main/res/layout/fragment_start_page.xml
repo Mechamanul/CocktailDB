@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:colorBackground"
     android:padding="24dp"
     tools:context=".ui.start_page.FragmentStartPage">
 
@@ -16,20 +17,26 @@
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_cocktail"
         android:layout_width="0dp"
+        android:layout_marginBottom="2dp"
         android:layout_height="48dp"
+        android:background="@drawable/corners_rounded_36_color_surface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.6" />
+        app:layout_constraintBottom_toTopOf="@id/suggestions_list"
+        app:layout_constraintWidth_percent="0.8" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/suggestions_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/corners_rounded_36_color_surface"
+        android:background="@drawable/bottom_corners_rounded_36_color_surface"
+        android:padding="24dp"
+        app:layout_constraintBottom_toTopOf="@id/visited_cocktails_rv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_cocktail" />
+        app:layout_constraintTop_toBottomOf="@id/search_cocktail"
+        app:layout_constraintWidth_percent="0.7" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/visited_cocktails_rv"
@@ -39,6 +46,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_cocktail"
+        app:layout_constraintTop_toBottomOf="@id/suggestions_list"
         app:spanCount="2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

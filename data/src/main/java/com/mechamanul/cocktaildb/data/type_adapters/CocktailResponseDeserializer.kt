@@ -3,6 +3,7 @@ package com.mechamanul.cocktaildb.data.type_adapters
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.JsonNull
 import com.mechamanul.cocktaildb.data.remote.CocktailResponse
 import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.domain.Ingredient
@@ -17,10 +18,16 @@ class CocktailResponseDeserializer @Inject constructor() : JsonDeserializer<Cock
         context: JsonDeserializationContext?
     ): CocktailResponse {
         val jo = json?.asJsonObject
-        val result: CocktailResponse = CocktailResponse(jo?.let { jo ->
-            jo.get("drinks")?.let {
-                deserializeListOfDrinks(it)
-            } ?: throw JsonDeserializationException("Problem occurred when tried to access drink field")
+        val result = CocktailResponse(jo?.let { jo ->
+            val drinksArray = jo.get("drinks")
+            if (!drinksArray.isJsonNull) {
+                deserializeListOfDrinks(drinksArray)
+            } else {
+                listOf()
+            }
+//            jo.get("drinks")?.let {
+//                deserializeListOfDrinks(it)
+//            } ?: listOf()
         } ?: throw JsonDeserializationException("Problem occurred at the start of deserialization"))
         return result
     }

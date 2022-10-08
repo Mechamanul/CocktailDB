@@ -13,14 +13,16 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object LocaleModule {
+object LocalModule {
 
     @Singleton
     @Provides
     fun provideDatabase(@ApplicationContext context: Context) =
-        Room.databaseBuilder(context, CocktailDatabase::class.java, "cocktail_database")
+        Room.databaseBuilder(context, CocktailDatabase::class.java, "cocktail_database").build()
 
     @Singleton
     @Provides
     fun provideDao(database: CocktailDatabase) = database.cocktailDao()
+
+
 }

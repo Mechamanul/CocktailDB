@@ -5,6 +5,7 @@ import com.google.gson.stream.JsonReader
 import com.mechamanul.cocktaildb.data.remote.testutils.createSimpleTestCocktail
 import com.mechamanul.cocktaildb.data.remote.testutils.createTestCocktailNoMeasures
 import com.mechamanul.cocktaildb.data.type_adapters.CocktailResponseDeserializer
+import com.mechamanul.cocktaildb.domain.Cocktail
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
@@ -78,6 +79,14 @@ class TestDeserializer {
         )
         println(wrongJson)
         gson.fromJson(wrongJson, CocktailResponse::class.java)
+    }
+
+    @Test
+    fun deserializeCorrectlyWhenDrinksNull() {
+        val testListCocktails = CocktailResponse(listOf())
+        val deserializationResult =
+            gson.fromJson(getTestJsonByFilename("drinksNull"), CocktailResponse::class.java)
+        assertEquals(testListCocktails, deserializationResult)
     }
 
     @Test
