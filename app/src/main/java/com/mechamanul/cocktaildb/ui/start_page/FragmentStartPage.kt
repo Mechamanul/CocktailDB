@@ -10,23 +10,27 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.google.android.material.snackbar.Snackbar
+import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.FragmentStartPageBinding
+import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.ui.BaseFragment
 import com.mechamanul.cocktaildb.ui.start_page.StartPageViewModel.UiEvent.*
 import com.mechamanul.cocktaildb.utils.ConnectionException
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class FragmentStartPage : BaseFragment(), IImplementImageDrawerCallback {
+class FragmentStartPage : BaseFragment(), ImageDrawerCallback, NavigationCallback {
+    private val viewModel: StartPageViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,12 +43,14 @@ class FragmentStartPage : BaseFragment(), IImplementImageDrawerCallback {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val viewModel: StartPageViewModel by viewModels()
         val visitedCocktailsAdapter = VisitedCocktailsAdapter(this)
-        val suggestionsAdapter = SuggestionsListAdapter()
+        val suggestionsAdapter = SuggestionsListAdapter(this)
         val binding = FragmentStartPageBinding.bind(view)
         binding.apply {
+            visitedCocktailsRv.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             visitedCocktailsRv.adapter = visitedCocktailsAdapter
+
             suggestionsList.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             suggestionsList.adapter = suggestionsAdapter
@@ -123,10 +129,23 @@ class FragmentStartPage : BaseFragment(), IImplementImageDrawerCallback {
     override fun drawImageCallback(imageView: ImageView, url: String) {
         Glide.with(requireContext()).asBitmap()
             .load(url).centerCrop()
-            .transform(CenterCrop(), RoundedCorners(37)).into(imageView)
+            .transform(CenterCrop(), RoundedCorners(58)).into(imageView)
     }
+
+    override fun navigateToCocktailDetails(cocktail: Cocktail): Job =
+        viewLifecycleOwner.lifecycleScope.launch {
+            val job = async { viewModel.saveChosenCocktailToDatabase(cocktail) }
+            job.await()
+            val action =
+                FragmentStartPageDirections.actionFragmentStartPageToFragmentCocktailBase(cocktail.id)
+            findNavController().navigate(action)
+        }
 }
 
-interface IImplementImageDrawerCallback {
+interface ImageDrawerCallback {
     fun drawImageCallback(imageView: ImageView, url: String)
+}
+
+interface NavigationCallback {
+    fun navigateToCocktailDetails(cocktail: Cocktail): Job
 }

@@ -9,7 +9,7 @@ import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.ui.start_page.VisitedCocktailsAdapter.VisitedCocktailViewHolder
 
 
-class VisitedCocktailsAdapter(val drawImageAsyncCallback: IImplementImageDrawerCallback) :
+class VisitedCocktailsAdapter(val drawImageAsyncCallback: ImageDrawerCallback) :
     ListAdapter<Cocktail, VisitedCocktailViewHolder>(CocktailDiffCallback()) {
     inner class VisitedCocktailViewHolder(val binding: VisitedCocktailsItemBinding) :
         ViewHolder(binding.root) {

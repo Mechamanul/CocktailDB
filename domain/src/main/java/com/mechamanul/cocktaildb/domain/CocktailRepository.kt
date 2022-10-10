@@ -7,4 +7,5 @@ interface CocktailRepository {
     suspend fun searchCocktailByName(name: String): Result<List<Cocktail>>
     suspend fun getCocktailById(id: Int): Cocktail
     suspend fun getVisitedCocktailsList(): Result<List<Cocktail>>
+    suspend fun saveCocktail(cocktail: Cocktail):Boolean
 }

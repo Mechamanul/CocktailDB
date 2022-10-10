@@ -33,7 +33,7 @@ class CocktailResponseDeserializer @Inject constructor() : JsonDeserializer<Cock
     }
 
 
-    fun deserializeListOfDrinks(json: JsonElement?): List<Cocktail> {
+    private fun deserializeListOfDrinks(json: JsonElement?): List<Cocktail> {
         val listJsonArray = json?.asJsonArray
         return listJsonArray?.map { drinkJsonElement ->
             val drinkJsonObject = drinkJsonElement.asJsonObject

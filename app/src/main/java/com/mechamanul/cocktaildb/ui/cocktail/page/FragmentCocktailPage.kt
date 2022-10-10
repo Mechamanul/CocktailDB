@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -23,6 +24,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FragmentCocktailPage : Fragment() {
+    val viewModel by viewModels<CocktailViewModel>(ownerProducer = { requireParentFragment() })
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,7 +41,6 @@ class FragmentCocktailPage : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val viewModel: CocktailViewModel by activityViewModels()
         val binding = FragmentCocktailPageBinding.bind(view)
         binding.apply {
             fab.setOnClickListener {

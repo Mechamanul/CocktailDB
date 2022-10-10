@@ -17,17 +17,6 @@
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
-        android:id="@+id/fragmentCocktailBase"
-        android:name="com.mechamanul.cocktaildb.ui.cocktail.FragmentCocktailBase"
-        android:label="fragment_cocktail_base"
-        tools:layout="@layout/fragment_cocktail_base">
-
-        <argument
-            android:name="id"
-            app:argType="integer"
-            android:defaultValue="0" />
-    </fragment>
-    <fragment
         android:id="@+id/fragmentStartPage"
         android:name="com.mechamanul.cocktaildb.ui.start_page.FragmentStartPage"
         android:label="fragment_start_page"
@@ -38,4 +27,16 @@
 
         </action>
     </fragment>
+    <fragment
+        android:id="@+id/fragmentCocktailBase"
+        android:name="com.mechamanul.cocktaildb.ui.cocktail.FragmentCocktailBase"
+        android:label="fragment_cocktail_base"
+        tools:layout="@layout/fragment_cocktail_base">
+
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+
 </navigation>

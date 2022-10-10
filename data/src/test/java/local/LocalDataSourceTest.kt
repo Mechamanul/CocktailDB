@@ -1,35 +1,17 @@
-package com.mechamanul.cocktaildb.data.local
+package local
 
-import com.mechamanul.cocktaildb.data.local.dao.CocktailDao
 import com.mechamanul.cocktaildb.data.local.model.CocktailEntity
 import com.mechamanul.cocktaildb.data.local.model.CocktailIngredientsCrossRef
 import com.mechamanul.cocktaildb.data.local.model.CocktailWithIngredients
 import com.mechamanul.cocktaildb.data.local.model.IngredientEntity
-import com.mechamanul.cocktaildb.data.repository.LocalCocktailDataSource
 import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.domain.Ingredient
+import org.junit.Assert.assertEquals
+import org.junit.Test
 import java.io.IOException
-import javax.inject.Inject
 
-class LocalCocktailDataSourceImpl @Inject constructor(private val cocktailDao: CocktailDao) :
-    LocalCocktailDataSource {
-    override suspend fun getVisitedCocktails(): List<Cocktail> {
-        return cocktailDao.getVisitedCocktails()
-            .map { cocktailWithIngredients -> mapToDomain(cocktailWithIngredients) }
-    }
-
-    override suspend fun saveCocktailAndIngredientsToDatabase(cocktail: Cocktail) {
-        cocktailDao.insertCocktailWithIngredients(
-            cocktail.mapFromDomain(),
-            cocktail.listOfIngredients.associate { it.name to it.measure }
-        )
-    }
-
-    override suspend fun getCocktailById(id: Int): Cocktail {
-        return mapToDomain(cocktailDao.getCocktailById(id))
-    }
-
-     private fun mapToDomain(entity: CocktailWithIngredients): Cocktail {
+class LocalDataSourceTest {
+    private fun mapToDomain(entity: CocktailWithIngredients): Cocktail {
 
         return Cocktail(
 
@@ -61,16 +43,31 @@ class LocalCocktailDataSourceImpl @Inject constructor(private val cocktailDao: C
 
     }
 
-    private fun Cocktail.mapFromDomain(): CocktailEntity {
-        return CocktailEntity(
-            name = name,
-            cocktailId = id.toLong(),
-            category = category,
-            type = type,
-            glass = glass,
-            imageUrl = imageUrl,
-            instruction = instruction
+    @Test
+    fun testMappingToDomain() {
+        val testInstance = CocktailWithIngredients(
+            CocktailEntity(
+                1L,
+                "name",
+                "category",
+                "type",
+                "glass",
+                "url",
+                "instruction"
+            ),
+            listOf(IngredientEntity(1L, "name")),
+            listOf(CocktailIngredientsCrossRef(1L, 1L, "measure"))
         )
+        val expected = Cocktail(
+            1,
+            "name",
+            "category",
+            "type",
+            "glass",
+            "url",
+            "instruction",
+            listOf(Ingredient("name", "measure"))
+        )
+        assertEquals(expected, mapToDomain(testInstance))
     }
-
 }

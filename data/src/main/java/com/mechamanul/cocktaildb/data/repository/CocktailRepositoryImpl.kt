@@ -35,8 +35,17 @@ class CocktailRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getVisitedCocktailsList(): Result<List<Cocktail>> {
-        val cocktails =  localDataSource.getVisitedCocktails()
+        val cocktails = localDataSource.getVisitedCocktails()
         return Result.Success(cocktails)
+    }
+
+    override suspend fun saveCocktail(cocktail: Cocktail): Boolean {
+        return try {
+            localDataSource.saveCocktailAndIngredientsToDatabase(cocktail)
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 
 }

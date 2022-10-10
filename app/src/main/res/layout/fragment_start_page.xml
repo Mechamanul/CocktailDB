@@ -9,6 +9,7 @@
     tools:context=".ui.start_page.FragmentStartPage">
 
     <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/suggestions_list_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -17,35 +18,33 @@
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_cocktail"
         android:layout_width="0dp"
-        android:layout_marginBottom="2dp"
         android:layout_height="48dp"
+        android:layout_marginBottom="2dp"
         android:background="@drawable/corners_rounded_36_color_surface"
+        android:elevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/suggestions_list"
-        app:layout_constraintWidth_percent="0.8" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/suggestions_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/bottom_corners_rounded_36_color_surface"
+        android:elevation="2dp"
         android:padding="24dp"
-        app:layout_constraintBottom_toTopOf="@id/visited_cocktails_rv"
+        app:layout_constraintBottom_toTopOf="@id/suggestions_list_end"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_cocktail"
-        app:layout_constraintWidth_percent="0.7" />
+        app:layout_constraintTop_toBottomOf="@id/search_cocktail" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/visited_cocktails_rv"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/suggestions_list"
+        app:layout_constraintTop_toBottomOf="@id/search_cocktail"
         app:spanCount="2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

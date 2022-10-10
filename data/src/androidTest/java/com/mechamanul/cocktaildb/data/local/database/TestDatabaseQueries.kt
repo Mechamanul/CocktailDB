@@ -73,7 +73,7 @@ class TestDatabaseQueries {
     }
 
     @Test
-    fun writesCocktailFromDomainAndReadsIt() = runTest {
+    fun writesCocktailFromDomainAndReadsItAsVisited() = runTest {
         val cocktail = Cocktail(
             id = 1,
             name = "TestCocktail",
@@ -92,4 +92,26 @@ class TestDatabaseQueries {
         assertEquals(dataSource.getVisitedCocktails()[0], cocktail)
 
     }
+
+    @Test
+    fun writesCocktailFromDomainAndReadsItById() = runTest {
+        val cocktail = Cocktail(
+            id = 1,
+            name = "TestCocktail",
+            category = "TestCategory",
+            type = "TestType",
+            glass = "TestGlass",
+            imageUrl = "TestUrl",
+            instruction = "TestInstruction",
+            listOfIngredients = listOf(
+                Ingredient("testIngredient1", "testMeasure1"),
+                Ingredient("testIngredient2", "testMeasure2")
+            )
+        )
+        dataSource.saveCocktailAndIngredientsToDatabase(cocktail)
+
+        assertEquals(dataSource.getCocktailById(cocktail.id), cocktail)
+
+    }
+
 }

@@ -1,10 +1,10 @@
 package com.mechamanul.cocktaildb.ui.start_page
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.domain.getVisitedCocktailsUseCase
+import com.mechamanul.cocktaildb.domain.saveCocktailUseCase
 import com.mechamanul.cocktaildb.domain.searchCocktailByNameUseCase
 import com.mechamanul.cocktaildb.ui.start_page.StartPageViewModel.UiEvent.CocktailSearchResult
 import com.mechamanul.cocktaildb.ui.start_page.StartPageViewModel.UiEvent.GetVisitedCocktailResult
@@ -20,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class StartPageViewModel @Inject constructor(
     private val searchCocktailUseCase: searchCocktailByNameUseCase,
-    private val getVisitedCocktailsUseCase: getVisitedCocktailsUseCase
+    private val getVisitedCocktailsUseCase: getVisitedCocktailsUseCase,
+    private val saveCocktailUseCase: saveCocktailUseCase
 ) :
     ViewModel() {
     private val _uiEvents =
@@ -39,11 +40,14 @@ class StartPageViewModel @Inject constructor(
                 is Result.Error ->
                     CocktailSearchResult.Failure(apiResult.exception)
                 is Result.Success -> {
-                    Log.d("Loaded cocktails", apiResult.data.toString())
                     CocktailSearchResult.Success(apiResult.data)
                 }
             }
         )
+    }
+
+    suspend fun saveChosenCocktailToDatabase(cocktail: Cocktail) = viewModelScope.launch {
+        saveCocktailUseCase.invoke(cocktail)
     }
 
     private suspend fun getListOfVisitedCocktails() = viewModelScope.launch {

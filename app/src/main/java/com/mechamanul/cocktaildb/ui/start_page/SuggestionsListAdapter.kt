@@ -9,10 +9,20 @@ import com.mechamanul.cocktaildb.databinding.SuggestionItemBinding
 import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.ui.start_page.SuggestionsListAdapter.SuggestionViewHolder
 
-class SuggestionsListAdapter :
+class SuggestionsListAdapter(val navigationCallback: NavigationCallback) :
     ListAdapter<Cocktail, SuggestionViewHolder>(CocktailDiffCallback()) {
     inner class SuggestionViewHolder(val binding: SuggestionItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.root.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val cocktail = getItem(position)
+                    navigationCallback.navigateToCocktailDetails(cocktail)
+                }
+            }
+        }
+
         fun bind(item: Cocktail) {
             binding.name.text = item.name
         }
