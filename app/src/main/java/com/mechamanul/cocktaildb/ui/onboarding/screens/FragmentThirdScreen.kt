@@ -19,7 +19,7 @@ class FragmentThirdScreen : Fragment(R.layout.fragment_onboarding_third_screen) 
         binding.apply {
             finishButton.setOnClickListener {
                 setOnBoardingCompleted()
-                findNavController().navigate(R.id.action_fragmentOnboarding_to_fragmentStartPage)
+//                findNavController().navigate(R.id.action_fragmentOnboarding_to_fragmentStartPage)
             }
         }
     }

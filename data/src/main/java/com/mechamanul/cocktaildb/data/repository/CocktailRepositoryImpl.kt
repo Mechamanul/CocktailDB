@@ -4,6 +4,7 @@ import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.domain.CocktailRepository
 import com.mechamanul.cocktaildb.utils.AppException
 import com.mechamanul.cocktaildb.utils.Result
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
@@ -34,9 +35,9 @@ class CocktailRepositoryImpl @Inject constructor(
         return localDataSource.getCocktailById(id)
     }
 
-    override suspend fun getVisitedCocktailsList(): Result<List<Cocktail>> {
-        val cocktails = localDataSource.getVisitedCocktails()
-        return Result.Success(cocktails)
+    override suspend fun getVisitedCocktailsList(): Result<Flow<List<Cocktail>>> {
+        val cocktailsFlow = localDataSource.getVisitedCocktails()
+        return Result.Success(cocktailsFlow)
     }
 
     override suspend fun saveCocktail(cocktail: Cocktail): Boolean {

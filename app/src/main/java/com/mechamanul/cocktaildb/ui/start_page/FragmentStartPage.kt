@@ -19,7 +19,7 @@ import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.FragmentStartPageBinding
 import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.ui.BaseFragment
-import com.mechamanul.cocktaildb.ui.start_page.StartPageViewModel.UiEvent.*
+import com.mechamanul.cocktaildb.ui.start_page.StartPageViewModel.*
 import com.mechamanul.cocktaildb.utils.ConnectionException
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -43,7 +43,7 @@ class FragmentStartPage : BaseFragment(), ImageDrawerCallback, NavigationCallbac
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val visitedCocktailsAdapter = VisitedCocktailsAdapter(this)
+        val visitedCocktailsAdapter = VisitedCocktailsAdapter(this, this)
         val suggestionsAdapter = SuggestionsListAdapter(this)
         val binding = FragmentStartPageBinding.bind(view)
         binding.apply {
@@ -81,48 +81,55 @@ class FragmentStartPage : BaseFragment(), ImageDrawerCallback, NavigationCallbac
                 suggestionsList.visibility = View.GONE
                 false
             }
-
-            viewLifecycleOwner.lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.uiEvents.collect { event ->
-                        when (event) {
-                            is CocktailSearchResult -> when (event) {
-                                is CocktailSearchResult.Failure -> {
-                                    val snackbar = handleExceptions(event.exception, binding.root)
-                                    if (event.exception is ConnectionException) {
-                                        snackbar.setAction("Retry") {
-                                            this.launch {
-                                                viewModel.searchCocktailByName("name")
-                                            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.cocktailSearch.collect { result ->
+                        when (result) {
+                            is CocktailSearchResult.Failure -> {
+                                val snackbar = handleExceptions(result.exception, binding.root)
+                                if (result.exception is ConnectionException) {
+                                    snackbar.setAction("Retry") {
+                                        this.launch {
+                                            viewModel.searchCocktailByName("name")
                                         }
                                     }
-                                    snackbar.show()
                                 }
-                                is CocktailSearchResult.Success -> {
-                                    suggestionsList.visibility = View.VISIBLE
-                                    suggestionsAdapter.submitList(
-                                        event.cocktails
-                                    )
-                                }
+                                snackbar.show()
                             }
-                            is GetVisitedCocktailResult -> when (event) {
-                                is GetVisitedCocktailResult.Failure -> handleExceptions(
-                                    event.exception,
-                                    binding.root
-                                ).show()
-                                is GetVisitedCocktailResult.Success -> visitedCocktailsAdapter.submitList(
-                                    event.cocktails
+                            is CocktailSearchResult.Success -> {
+                                binding.suggestionsList.visibility = View.VISIBLE
+                                suggestionsAdapter.submitList(
+                                    result.cocktails
                                 )
                             }
                         }
                     }
                 }
+                launch {
 
-                super.onViewCreated(view, savedInstanceState)
+                    viewModel.visitedCocktails.collect { result ->
+                        when (result) {
+                            is GetVisitedCocktailResult.Failure -> handleExceptions(
+                                result.exception,
+                                binding.root
+                            ).show()
+                            is GetVisitedCocktailResult.Success -> launch {
+                                result.cocktails.collect {
+                                    visitedCocktailsAdapter.submitList(it)
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
 
 
         }
+
+        super.onViewCreated(view, savedInstanceState)
     }
 
 
@@ -137,7 +144,9 @@ class FragmentStartPage : BaseFragment(), ImageDrawerCallback, NavigationCallbac
             val job = async { viewModel.saveChosenCocktailToDatabase(cocktail) }
             job.await()
             val action =
-                FragmentStartPageDirections.actionFragmentStartPageToFragmentCocktailBase(cocktail.id)
+                FragmentStartPageDirections.actionFragmentStartPageToFragmentCocktailBase(
+                    cocktail.id
+                )
             findNavController().navigate(action)
         }
 }

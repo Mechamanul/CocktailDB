@@ -2,20 +2,22 @@ package com.mechamanul.cocktaildb.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.mechamanul.cocktaildb.data.local.model.CocktailEntity
 import com.mechamanul.cocktaildb.data.local.model.CocktailIngredientsCrossRef
 import com.mechamanul.cocktaildb.data.local.model.CocktailWithIngredients
 import com.mechamanul.cocktaildb.data.local.model.IngredientEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CocktailDao {
     @Transaction
-    @Query("SELECT * FROM cocktails")
-    suspend fun getVisitedCocktails(): List<CocktailWithIngredients>
+    @Query("SELECT * FROM cocktails ORDER BY createdAt DESC")
+    fun getVisitedCocktails(): Flow<List<CocktailWithIngredients>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertIngredient(ingredient: IngredientEntity): Long
 
     @Insert
@@ -24,9 +26,15 @@ interface CocktailDao {
     @Insert
     suspend fun insertCocktailIngredientCrossRef(cocktailIngredientsCrossRef: CocktailIngredientsCrossRef)
 
+    @Query("Select ingredientId from ingrediententity where name=:name")
+    suspend fun searchIngredientByName(name: String): Long?
+
+    @Transaction
     @Query("SELECT * FROM cocktails WHERE cocktailId=:id")
     suspend fun getCocktailById(id: Int): CocktailWithIngredients
 
+    @Query("UPDATE cocktails SET isFavourite = :isFavourite WHERE cocktailId=:id")
+    suspend fun setIsFavourite(id: Int, isFavourite: Boolean)
 
     @Transaction
     suspend fun insertCocktailWithIngredients(
@@ -35,12 +43,13 @@ interface CocktailDao {
     ) {
         val cocktailId = insertCocktail(cocktail)
         ingredientsMeasure.entries.forEach {
-            val ingredientId = insertIngredient(IngredientEntity(name = it.key))
+            val ingredientId =
+                searchIngredientByName(it.key) ?: insertIngredient(IngredientEntity(name = it.key))
             insertCocktailIngredientCrossRef(
                 CocktailIngredientsCrossRef(
-                    cocktailId,
-                    ingredientId,
-                    it.value
+                    cocktailId = cocktailId,
+                    ingredientId = ingredientId,
+                    measure = it.value
                 )
             )
         }

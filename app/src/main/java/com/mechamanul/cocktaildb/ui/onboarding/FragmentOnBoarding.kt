@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class FragmentOnBoarding : Fragment(R.layout.fragment_onboarding) {
     override fun onCreate(savedInstanceState: Bundle?) {
         if (onBoardingCompleted()) {
-            findNavController().navigate(R.id.action_fragmentOnboarding_to_fragmentStartPage)
+//            findNavController().navigate(R.id.action_fragmentOnboarding_to_fragmentStartPage)
         }
         super.onCreate(savedInstanceState)
     }

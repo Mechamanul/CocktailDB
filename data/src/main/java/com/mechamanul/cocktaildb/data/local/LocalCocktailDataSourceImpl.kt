@@ -8,14 +8,16 @@ import com.mechamanul.cocktaildb.data.local.model.IngredientEntity
 import com.mechamanul.cocktaildb.data.repository.LocalCocktailDataSource
 import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.domain.Ingredient
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.io.IOException
 import javax.inject.Inject
 
 class LocalCocktailDataSourceImpl @Inject constructor(private val cocktailDao: CocktailDao) :
     LocalCocktailDataSource {
-    override suspend fun getVisitedCocktails(): List<Cocktail> {
+    override suspend fun getVisitedCocktails(): Flow<List<Cocktail>> {
         return cocktailDao.getVisitedCocktails()
-            .map { cocktailWithIngredients -> mapToDomain(cocktailWithIngredients) }
+            .map { list -> list.map { cocktailEntity -> mapToDomain(cocktailEntity) } }
     }
 
     override suspend fun saveCocktailAndIngredientsToDatabase(cocktail: Cocktail) {
@@ -29,7 +31,7 @@ class LocalCocktailDataSourceImpl @Inject constructor(private val cocktailDao: C
         return mapToDomain(cocktailDao.getCocktailById(id))
     }
 
-     private fun mapToDomain(entity: CocktailWithIngredients): Cocktail {
+    private fun mapToDomain(entity: CocktailWithIngredients): Cocktail {
 
         return Cocktail(
 
@@ -69,7 +71,8 @@ class LocalCocktailDataSourceImpl @Inject constructor(private val cocktailDao: C
             type = type,
             glass = glass,
             imageUrl = imageUrl,
-            instruction = instruction
+            instruction = instruction,
+            createdAt = null
         )
     }
 
