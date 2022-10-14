@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.FragmentStartPageBinding
 import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.ui.BaseFragment
@@ -144,7 +145,7 @@ class FragmentStartPage : BaseFragment(), ImageDrawerCallback, NavigationCallbac
 
     override fun drawImageCallback(imageView: ImageView, url: String) {
         Glide.with(requireContext()).asBitmap()
-            .load(url).centerCrop()
+            .load(url).placeholder(R.drawable.cocktail_mojito_icon).centerCrop()
             .transform(CenterCrop(), RoundedCorners(58)).into(imageView)
     }
 

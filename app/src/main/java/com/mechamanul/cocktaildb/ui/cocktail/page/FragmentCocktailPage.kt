@@ -45,7 +45,7 @@ class FragmentCocktailPage : Fragment() {
                         val cocktail = uiState.cocktail
                         binding.apply {
                             Glide.with(requireContext()).asBitmap()
-                                .load(cocktail.imageUrl).centerCrop()
+                                .load(cocktail.imageUrl).centerCrop().placeholder(R.drawable.cocktail_mojito_icon)
                                 .transform(CenterCrop(), RoundedCorners(96)).into(image)
                             drinkName.text = cocktail.name
                             drinkId.text = "ID: ${cocktail.id}"
