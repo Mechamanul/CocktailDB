@@ -31,6 +31,10 @@ class LocalCocktailDataSourceImpl @Inject constructor(private val cocktailDao: C
         return mapToDomain(cocktailDao.getCocktailById(id))
     }
 
+    override suspend fun changeLikeState(cocktailId: Int, favourite: Boolean) {
+        return cocktailDao.setIsFavourite(cocktailId, favourite)
+    }
+
     private fun mapToDomain(entity: CocktailWithIngredients): Cocktail {
 
         return Cocktail(
@@ -42,7 +46,8 @@ class LocalCocktailDataSourceImpl @Inject constructor(private val cocktailDao: C
             glass = entity.cocktail.glass,
             imageUrl = entity.cocktail.imageUrl,
             instruction = entity.cocktail.instruction,
-            listOfIngredients = mergeCrossRefWithIngredients(entity.crossRefs, entity.ingredients)
+            listOfIngredients = mergeCrossRefWithIngredients(entity.crossRefs, entity.ingredients),
+            isFavourite = entity.cocktail.isFavourite
         )
 
     }
@@ -72,7 +77,6 @@ class LocalCocktailDataSourceImpl @Inject constructor(private val cocktailDao: C
             glass = glass,
             imageUrl = imageUrl,
             instruction = instruction,
-            createdAt = null
         )
     }
 

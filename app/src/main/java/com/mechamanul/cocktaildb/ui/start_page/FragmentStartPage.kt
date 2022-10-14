@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.FragmentStartPageBinding
 import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.ui.BaseFragment
@@ -55,25 +54,35 @@ class FragmentStartPage : BaseFragment(), ImageDrawerCallback, NavigationCallbac
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             suggestionsList.adapter = suggestionsAdapter
             suggestionsList.visibility = View.GONE
+
+            searchCocktail.findViewById<View>(androidx.appcompat.R.id.search_close_btn)
+                .setOnClickListener {
+                    searchCocktail.setQuery("", false)
+                }
+
+
             searchCocktail.setOnQueryTextListener(object : OnQueryTextListener {
 
                 var queryTextChangedJob: Job? = null
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    query ?: return false
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.searchCocktailByName(query)
-                    }
-                    return true
+                    return false
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    newText ?: return false
                     queryTextChangedJob?.cancel()
-                    queryTextChangedJob = viewLifecycleOwner.lifecycleScope.launch {
-                        delay(500)
-                        viewModel.searchCocktailByName(newText)
+                    if (newText != null) {
+                        if (newText.isNotEmpty()) {
+                            queryTextChangedJob = viewLifecycleOwner.lifecycleScope.launch {
+                                delay(500)
+                                viewModel.searchCocktailByName(newText)
+                            }
+                        } else {
+                            suggestionsAdapter.submitList(listOf())
+                            suggestionsList.visibility = View.GONE
+                        }
                     }
-                    return true
+
+                    return false
                 }
 
             })

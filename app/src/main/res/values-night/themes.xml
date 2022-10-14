@@ -10,12 +10,13 @@
         <!-- Secondary brand color. -->
         <item name="android:colorBackground">@color/dark_black</item>
         <item name="colorSurface">@color/semi_black</item>
-        <item name="colorOnSurface">@color/medium_white</item>
+        <item name="colorOnSurface">@color/semi_white</item>
         <item name="colorSecondary">@color/medium_black</item>
         <item name="colorSecondaryVariant">@color/pink_200</item>
         <item name="colorOnSecondary">@color/pink_200</item>
+        <item name="colorAccent">@color/white</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@android:color/transparent</item>
+        <item name="android:statusBarColor" >@android:color/transparent</item>
         <!-- Customize your theme here. -->
     </style>
 

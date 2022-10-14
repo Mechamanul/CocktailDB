@@ -24,4 +24,7 @@ abstract class DomainModule {
 
     @Binds
     abstract fun bindGetCocktailByIdUseCaseImpl(getCocktailByIdUseCaseImpl: getCocktailByIdUseCaseImpl): getCocktailByIdUseCase
+
+    @Binds
+    abstract fun bindChangeLikeStateImpl(useCaseImpl: changeLikeStateUseCaseImpl): changeLikeStateUseCase
 }

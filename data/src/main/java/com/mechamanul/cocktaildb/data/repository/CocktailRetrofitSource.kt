@@ -2,7 +2,7 @@ package com.mechamanul.cocktaildb.data.repository
 
 import com.google.gson.GsonBuilder
 import com.mechamanul.cocktaildb.data.remote.CocktailResponse
-import com.mechamanul.cocktaildb.data.type_adapters.CocktailResponseDeserializer
+import com.mechamanul.cocktaildb.data.remote.type_adapters.CocktailResponseDeserializer
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

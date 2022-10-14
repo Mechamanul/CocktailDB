@@ -1,16 +1,14 @@
 package com.mechamanul.cocktaildb.ui.cocktail
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.domain.getCocktailByIdUseCase
-import com.mechamanul.cocktaildb.domain.getRandomCocktailUseCase
+import com.mechamanul.cocktaildb.domain.changeLikeStateUseCase
 import com.mechamanul.cocktaildb.ui.cocktail.CocktailViewModel.CocktailUiState.Failure
 import com.mechamanul.cocktaildb.ui.cocktail.CocktailViewModel.CocktailUiState.Success
 import com.mechamanul.cocktaildb.utils.AppException
-import com.mechamanul.cocktaildb.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CocktailViewModel @Inject constructor(
-//    private val getRandomCocktailUseCase: getRandomCocktailUseCase,
+    private val changeLikeStateUseCase: changeLikeStateUseCase,
     private val getCocktailByIdUseCase: getCocktailByIdUseCase,
     state: SavedStateHandle
 ) :
@@ -30,9 +28,7 @@ class CocktailViewModel @Inject constructor(
     val uiFlow: StateFlow<CocktailUiState> = _uiFlow
 
     init {
-//        Log.d("keys", savedStateHandle.keys().toString())
         val cocktailId = state.get<Int>("id")
-        Log.d("CocktailId", cocktailId.toString())
         if (cocktailId != null) {
             getCocktail(cocktailId)
         } else {
@@ -51,6 +47,10 @@ class CocktailViewModel @Inject constructor(
         }
 
 
+    }
+
+    fun changeLikeState(cocktailId: Int) = viewModelScope.launch {
+        changeLikeStateUseCase.invoke(cocktailId)
     }
 
 

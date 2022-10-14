@@ -3,7 +3,7 @@ package com.mechamanul.cocktaildb.di
 import com.google.gson.GsonBuilder
 import com.mechamanul.cocktaildb.data.remote.CocktailResponse
 import com.mechamanul.cocktaildb.data.remote.CocktailApi
-import com.mechamanul.cocktaildb.data.type_adapters.CocktailResponseDeserializer
+import com.mechamanul.cocktaildb.data.remote.type_adapters.CocktailResponseDeserializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

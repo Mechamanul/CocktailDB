@@ -16,6 +16,7 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <androidx.appcompat.widget.SearchView
+        app:iconifiedByDefault="false"
         android:id="@+id/search_cocktail"
         android:layout_width="0dp"
         android:layout_height="48dp"

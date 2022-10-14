@@ -1,19 +1,14 @@
 package com.mechamanul.cocktaildb.ui.cocktail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.snackbar.Snackbar
 import com.mechamanul.cocktaildb.databinding.FragmentCocktailBaseBinding
 import com.mechamanul.cocktaildb.ui.BaseFragment
 import com.mechamanul.cocktaildb.ui.cocktail.CocktailViewModel.CocktailUiState.*
@@ -22,11 +17,9 @@ import com.mechamanul.cocktaildb.ui.cocktail.page.FragmentCocktailPage
 import com.mechamanul.cocktaildb.ui.cocktail.viewpager.CocktailViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.net.UnknownHostException
 
 @AndroidEntryPoint
 class FragmentCocktailBase : BaseFragment() {
-    val args: FragmentCocktailBaseArgs by navArgs()
     private val viewModel: CocktailViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +33,6 @@ class FragmentCocktailBase : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d("args", args.toString())
         val binding = FragmentCocktailBaseBinding.bind(view)
         val viewPagerAdapter = CocktailViewPagerAdapter(
             childFragmentManager, viewLifecycleOwner.lifecycle,
@@ -48,8 +40,6 @@ class FragmentCocktailBase : BaseFragment() {
         )
 
         binding.apply {
-
-
             viewPager.apply {
                 visibility = View.GONE
                 orientation = ViewPager2.ORIENTATION_VERTICAL

@@ -34,6 +34,7 @@
         android:id="@+id/cocktail_name"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:textColor="?attr/colorOnSurface"
         android:autoSizeTextType="uniform"
         android:background="@drawable/corners_rounded_36_color_surface"
         android:fontFamily="@font/playfair_display_sc_bold"

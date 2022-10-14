@@ -1,12 +1,10 @@
 package com.mechamanul.cocktaildb.ui.cocktail.page
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -24,7 +22,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FragmentCocktailPage : Fragment() {
-    val viewModel by viewModels<CocktailViewModel>(ownerProducer = { requireParentFragment() })
+    private val viewModel by viewModels<CocktailViewModel>(ownerProducer = { requireParentFragment() })
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,26 +32,15 @@ class FragmentCocktailPage : Fragment() {
         return binding.root
     }
 
-    override fun onStart() {
-        Log.d("cocktailPage", "OnStart()")
-        super.onStart()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentCocktailPageBinding.bind(view)
-        binding.apply {
-            fab.setOnClickListener {
-                (it as FloatingActionButton).setImageResource(
-                    R.drawable.ic_baseline_favorite_56
-                )
-            }
-        }
+        var fabState: Boolean
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiFlow.collect { uiState ->
-                    Log.d("uiFlow", "Collected in cocktailpage")
                     if (uiState is Success) {
                         val cocktail = uiState.cocktail
                         binding.apply {
@@ -65,11 +52,36 @@ class FragmentCocktailPage : Fragment() {
                             category.text = cocktail.category
                             type.text = cocktail.type
                             glassType.text = cocktail.glass
+                            fabState = cocktail.isFavourite
+                            with(fab) {
+                                changeFabIcon(fabState)
+                            }
+
+                            fab.setOnClickListener {
+                                fabState = !fabState
+                                (it as FloatingActionButton).changeFabIcon(fabState)
+
+                                viewModel.changeLikeState(cocktailId = cocktail.id)
+                            }
                         }
+
                     }
 
                 }
             }
+        }
+    }
+
+    private fun FloatingActionButton.changeFabIcon(state: Boolean) {
+        if (state) {
+            setImageResource(
+
+                R.drawable.ic_baseline_favorite_56
+            )
+        } else {
+            setImageResource(
+                R.drawable.ic_baseline_favorite_border_56
+            )
         }
     }
 

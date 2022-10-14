@@ -49,4 +49,8 @@ class CocktailRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun changeLikeState(cocktailId: Int, favourite: Boolean) {
+        return localDataSource.changeLikeState(cocktailId, favourite)
+    }
+
 }
