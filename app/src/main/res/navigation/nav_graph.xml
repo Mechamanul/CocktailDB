@@ -4,21 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/fragmentStartPage">
-<!--    <fragment-->
-<!--        android:id="@+id/fragmentOnboarding"-->
-
-<!--        android:name="com.mechamanul.cocktaildb.ui.onboarding.FragmentOnBoarding"-->
-<!--        android:label="FragmentOnboarding">-->
-
-<!--        <action-->
-<!--            android:id="@+id/action_fragmentOnboarding_to_fragmentStartPage"-->
-<!--            app:destination="@id/fragmentStartPage"-->
-<!--            app:popUpTo="@id/fragmentOnboarding"-->
-<!--            app:popUpToInclusive="true" />-->
-<!--    </fragment>-->
     <fragment
         android:id="@+id/fragmentStartPage"
-        android:name="com.mechamanul.cocktaildb.ui.start_page.FragmentStartPage"
+        android:name="com.mechamanul.cocktaildb.ui.pages.start_page.FragmentStartPage"
         android:label="fragment_start_page"
         tools:layout="@layout/fragment_start_page">
         <action
@@ -29,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentCocktailBase"
-        android:name="com.mechamanul.cocktaildb.ui.cocktail.FragmentCocktailBase"
+        android:name="com.mechamanul.cocktaildb.ui.pages.cocktail_details.FragmentCocktailBase"
         android:label="fragment_cocktail_base"
         tools:layout="@layout/fragment_cocktail_base">
 
@@ -40,11 +28,15 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentSearchByCategory"
-        android:name="com.mechamanul.cocktaildb.ui.search_category.FragmentSearchByCategory"
+        android:name="com.mechamanul.cocktaildb.ui.pages.search_category.FragmentSearchByCategory"
         android:label="FragmentSearchByCategory" />
     <fragment
         android:id="@+id/fragmentFavourites"
-        android:name="com.mechamanul.cocktaildb.ui.favourites.FragmentFavourites"
-        android:label="FragmentFavourites" />
+        android:name="com.mechamanul.cocktaildb.ui.pages.favourites.FragmentFavourites"
+        android:label="FragmentFavourites" >
+        <action
+            android:id="@+id/action_fragmentFavourites_to_fragmentCocktailBase"
+            app:destination="@id/fragmentCocktailBase" />
+    </fragment>
 
 </navigation>

@@ -1,4 +1,4 @@
-package com.mechamanul.cocktaildb.ui.start_page
+package com.mechamanul.cocktaildb.ui.pages.start_page
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

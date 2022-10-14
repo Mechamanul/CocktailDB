@@ -53,4 +53,13 @@ class CocktailRepositoryImpl @Inject constructor(
         return localDataSource.changeLikeState(cocktailId, favourite)
     }
 
+    override suspend fun getFavouriteCocktailsFlow(): Result<Flow<List<Cocktail>>> {
+        return try {
+            val flow = localDataSource.getFavouriteCocktailsFlow()
+            Result.Success(flow)
+        } catch (e: Exception) {
+            Result.Error(AppException(e))
+        }
+    }
+
 }

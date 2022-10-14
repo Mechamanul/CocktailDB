@@ -1,4 +1,4 @@
-package com.mechamanul.cocktaildb.ui.start_page
+package com.mechamanul.cocktaildb.ui.elements.adapters.cocktail_list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,10 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.mechamanul.cocktaildb.databinding.VisitedCocktailsItemBinding
 import com.mechamanul.cocktaildb.domain.Cocktail
-import com.mechamanul.cocktaildb.ui.start_page.VisitedCocktailsAdapter.VisitedCocktailViewHolder
+import com.mechamanul.cocktaildb.ui.elements.callbacks.CocktailDiffCallback
+import com.mechamanul.cocktaildb.ui.elements.adapters.cocktail_list.CocktailsListAdapter.VisitedCocktailViewHolder
+import com.mechamanul.cocktaildb.ui.pages.start_page.ImageDrawerCallback
+import com.mechamanul.cocktaildb.ui.pages.start_page.NavigationCallback
 
 
-class VisitedCocktailsAdapter(
+class CocktailsListAdapter(
     val drawImageAsyncCallback: ImageDrawerCallback,
     val navigationCallback: NavigationCallback
 ) :

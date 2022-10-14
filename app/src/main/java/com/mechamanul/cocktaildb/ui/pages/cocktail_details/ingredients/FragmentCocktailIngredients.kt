@@ -1,4 +1,4 @@
-package com.mechamanul.cocktaildb.ui.cocktail.ingredients
+package com.mechamanul.cocktaildb.ui.pages.cocktail_details.ingredients
 
 import android.os.Bundle
 import android.view.View
@@ -10,8 +10,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.FragmentCocktailIngredientsBinding
-import com.mechamanul.cocktaildb.ui.cocktail.CocktailViewModel
-import com.mechamanul.cocktaildb.ui.cocktail.CocktailViewModel.CocktailUiState.Success
+import com.mechamanul.cocktaildb.ui.pages.cocktail_details.CocktailViewModel
+import com.mechamanul.cocktaildb.ui.pages.cocktail_details.CocktailViewModel.CocktailUiState.Success
+import com.mechamanul.cocktaildb.ui.elements.adapters.IngredientsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

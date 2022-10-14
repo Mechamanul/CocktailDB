@@ -1,4 +1,4 @@
-package com.mechamanul.cocktaildb.ui.search_category
+package com.mechamanul.cocktaildb.ui.pages.search_category
 
 import android.os.Bundle
 import android.view.LayoutInflater

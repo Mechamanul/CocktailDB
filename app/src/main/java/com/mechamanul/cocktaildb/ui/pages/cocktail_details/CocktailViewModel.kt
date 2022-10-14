@@ -1,4 +1,4 @@
-package com.mechamanul.cocktaildb.ui.cocktail
+package com.mechamanul.cocktaildb.ui.pages.cocktail_details
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.domain.getCocktailByIdUseCase
 import com.mechamanul.cocktaildb.domain.changeLikeStateUseCase
-import com.mechamanul.cocktaildb.ui.cocktail.CocktailViewModel.CocktailUiState.Failure
-import com.mechamanul.cocktaildb.ui.cocktail.CocktailViewModel.CocktailUiState.Success
+import com.mechamanul.cocktaildb.ui.pages.cocktail_details.CocktailViewModel.CocktailUiState.Failure
+import com.mechamanul.cocktaildb.ui.pages.cocktail_details.CocktailViewModel.CocktailUiState.Success
 import com.mechamanul.cocktaildb.utils.AppException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

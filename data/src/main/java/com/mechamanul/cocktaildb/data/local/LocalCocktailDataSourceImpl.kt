@@ -80,4 +80,8 @@ class LocalCocktailDataSourceImpl @Inject constructor(private val cocktailDao: C
         )
     }
 
+    override suspend fun getFavouriteCocktailsFlow(): Flow<List<Cocktail>> {
+        return cocktailDao.getFavouriteCocktails()
+            .map { list -> list.map { cocktailWithIngredients -> mapToDomain(cocktailWithIngredients) } }
+    }
 }

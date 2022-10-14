@@ -1,4 +1,4 @@
-package com.mechamanul.cocktaildb.ui.cocktail.ingredients
+package com.mechamanul.cocktaildb.ui.elements.adapters
 
 import android.util.Log
 import android.view.LayoutInflater

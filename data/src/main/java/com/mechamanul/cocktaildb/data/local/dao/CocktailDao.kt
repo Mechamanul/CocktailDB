@@ -9,6 +9,7 @@ import com.mechamanul.cocktaildb.data.local.model.CocktailEntity
 import com.mechamanul.cocktaildb.data.local.model.CocktailIngredientsCrossRef
 import com.mechamanul.cocktaildb.data.local.model.CocktailWithIngredients
 import com.mechamanul.cocktaildb.data.local.model.IngredientEntity
+import com.mechamanul.cocktaildb.domain.Cocktail
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -55,5 +56,9 @@ interface CocktailDao {
         }
 
     }
+
+    @Transaction
+    @Query("SELECT * FROM cocktails WHERE isFavourite=1")
+    fun getFavouriteCocktails(): Flow<List<CocktailWithIngredients>>
 
 }

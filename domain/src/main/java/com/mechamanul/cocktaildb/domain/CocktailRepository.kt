@@ -10,4 +10,5 @@ interface CocktailRepository {
     suspend fun getVisitedCocktailsList(): Result<Flow<List<Cocktail>>>
     suspend fun saveCocktail(cocktail: Cocktail): Boolean
     suspend fun changeLikeState(cocktailId: Int, favourite: Boolean)
+    suspend fun getFavouriteCocktailsFlow(): Result<Flow<List<Cocktail>>>
 }

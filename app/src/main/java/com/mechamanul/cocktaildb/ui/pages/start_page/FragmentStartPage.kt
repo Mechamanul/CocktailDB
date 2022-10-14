@@ -1,4 +1,4 @@
-package com.mechamanul.cocktaildb.ui.start_page
+package com.mechamanul.cocktaildb.ui.pages.start_page
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,7 +19,9 @@ import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.FragmentStartPageBinding
 import com.mechamanul.cocktaildb.domain.Cocktail
 import com.mechamanul.cocktaildb.ui.BaseFragment
-import com.mechamanul.cocktaildb.ui.start_page.StartPageViewModel.*
+import com.mechamanul.cocktaildb.ui.elements.adapters.cocktail_list.CocktailsListAdapter
+import com.mechamanul.cocktaildb.ui.elements.adapters.search_suggestion_list.SuggestionsListAdapter
+import com.mechamanul.cocktaildb.ui.pages.start_page.StartPageViewModel.*
 import com.mechamanul.cocktaildb.utils.ConnectionException
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -43,7 +45,7 @@ class FragmentStartPage : BaseFragment(), ImageDrawerCallback, NavigationCallbac
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val visitedCocktailsAdapter = VisitedCocktailsAdapter(this, this)
+        val visitedCocktailsAdapter = CocktailsListAdapter(this, this)
         val suggestionsAdapter = SuggestionsListAdapter(this)
         val binding = FragmentStartPageBinding.bind(view)
         binding.apply {

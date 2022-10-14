@@ -1,4 +1,4 @@
-package com.mechamanul.cocktaildb.ui.start_page
+package com.mechamanul.cocktaildb.ui.elements.callbacks
 
 import androidx.recyclerview.widget.DiffUtil
 import com.mechamanul.cocktaildb.domain.Cocktail

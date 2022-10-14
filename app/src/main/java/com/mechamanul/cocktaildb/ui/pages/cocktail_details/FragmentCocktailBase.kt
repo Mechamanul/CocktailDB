@@ -1,4 +1,4 @@
-package com.mechamanul.cocktaildb.ui.cocktail
+package com.mechamanul.cocktaildb.ui.pages.cocktail_details
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,10 +11,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
 import com.mechamanul.cocktaildb.databinding.FragmentCocktailBaseBinding
 import com.mechamanul.cocktaildb.ui.BaseFragment
-import com.mechamanul.cocktaildb.ui.cocktail.CocktailViewModel.CocktailUiState.*
-import com.mechamanul.cocktaildb.ui.cocktail.ingredients.FragmentCocktailIngredients
-import com.mechamanul.cocktaildb.ui.cocktail.page.FragmentCocktailPage
-import com.mechamanul.cocktaildb.ui.cocktail.viewpager.CocktailViewPagerAdapter
+import com.mechamanul.cocktaildb.ui.pages.cocktail_details.CocktailViewModel.CocktailUiState.*
+import com.mechamanul.cocktaildb.ui.pages.cocktail_details.ingredients.FragmentCocktailIngredients
+import com.mechamanul.cocktaildb.ui.pages.cocktail_details.main_info.FragmentCocktailPage
+import com.mechamanul.cocktaildb.ui.elements.adapters.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -34,7 +34,7 @@ class FragmentCocktailBase : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val binding = FragmentCocktailBaseBinding.bind(view)
-        val viewPagerAdapter = CocktailViewPagerAdapter(
+        val viewPagerAdapter = ViewPagerAdapter(
             childFragmentManager, viewLifecycleOwner.lifecycle,
             arrayListOf(FragmentCocktailPage(), FragmentCocktailIngredients())
         )

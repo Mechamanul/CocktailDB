@@ -1,4 +1,4 @@
-package com.mechamanul.cocktaildb.ui.cocktail.page
+package com.mechamanul.cocktaildb.ui.pages.cocktail_details.main_info
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,8 +15,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.FragmentCocktailPageBinding
-import com.mechamanul.cocktaildb.ui.cocktail.CocktailViewModel
-import com.mechamanul.cocktaildb.ui.cocktail.CocktailViewModel.CocktailUiState.Success
+import com.mechamanul.cocktaildb.ui.pages.cocktail_details.CocktailViewModel
+import com.mechamanul.cocktaildb.ui.pages.cocktail_details.CocktailViewModel.CocktailUiState.Success
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
