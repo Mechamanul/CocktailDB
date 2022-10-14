@@ -38,5 +38,13 @@
             app:argType="integer"
             android:defaultValue="0" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentSearchByCategory"
+        android:name="com.mechamanul.cocktaildb.ui.search_category.FragmentSearchByCategory"
+        android:label="FragmentSearchByCategory" />
+    <fragment
+        android:id="@+id/fragmentFavourites"
+        android:name="com.mechamanul.cocktaildb.ui.favourites.FragmentFavourites"
+        android:label="FragmentFavourites" />
 
 </navigation>

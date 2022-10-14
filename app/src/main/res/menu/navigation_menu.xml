@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fragmentStartPage"
+        android:icon="@drawable/search_icon_menu"
+        android:title="@string/menu_search_title" />
+    <item
+        android:id="@+id/fragmentSearchByCategory"
+        android:icon="@drawable/category_icon_menu"
+        android:title="@string/menu_category_title" />
+    <item
+        android:id="@+id/fragmentFavourites"
+        android:icon="@drawable/favorite_icon_menu"
+        android:title="@string/menu_favourites_title" />
+
+</menu>
