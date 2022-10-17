@@ -1,8 +1,9 @@
 package com.mechamanul.cocktaildb.data.remote
 
 import com.google.gson.JsonParseException
+import com.mechamanul.cocktaildb.data.remote.api.CocktailApi
 import com.mechamanul.cocktaildb.data.repository.RemoteCocktailDataSource
-import com.mechamanul.cocktaildb.domain.Cocktail
+import com.mechamanul.cocktaildb.domain.model.Cocktail
 import com.mechamanul.cocktaildb.utils.AppException
 import com.mechamanul.cocktaildb.utils.ConnectionException
 import com.mechamanul.cocktaildb.utils.EmptyRetrofitResultException
@@ -30,6 +31,10 @@ class RemoteCocktailDataSourceImpl @Inject constructor(
             response.cocktails
                 ?: throw EmptyRetrofitResultException("Drinks with given name was not found")
         }
+
+    override suspend fun getListOfCategories(): List<String> = wrapRetrofitExceptions {
+        cocktailApi.getListOfCategories().categories.map { it.name }
+    }
 
     private suspend fun <T> wrapRetrofitExceptions(block: suspend () -> T): T {
         return try {

@@ -1,4 +1,4 @@
-package com.mechamanul.cocktaildb.domain
+package com.mechamanul.cocktaildb.domain.model
 
 
 data class Cocktail(

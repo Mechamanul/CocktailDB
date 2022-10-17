@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.mechamanul.cocktaildb.databinding.VisitedCocktailsItemBinding
-import com.mechamanul.cocktaildb.domain.Cocktail
+import com.mechamanul.cocktaildb.domain.model.Cocktail
 import com.mechamanul.cocktaildb.ui.elements.callbacks.CocktailDiffCallback
 import com.mechamanul.cocktaildb.ui.elements.adapters.cocktail_list.CocktailsListAdapter.VisitedCocktailViewHolder
 import com.mechamanul.cocktaildb.ui.pages.start_page.ImageDrawerCallback

@@ -9,16 +9,13 @@ import com.mechamanul.cocktaildb.data.local.dao.CocktailDao
 import com.mechamanul.cocktaildb.data.local.model.CocktailEntity
 import com.mechamanul.cocktaildb.data.local.model.CocktailWithIngredients
 import com.mechamanul.cocktaildb.data.repository.LocalCocktailDataSource
-import com.mechamanul.cocktaildb.domain.Cocktail
-import com.mechamanul.cocktaildb.domain.Ingredient
+import com.mechamanul.cocktaildb.domain.model.Cocktail
+import com.mechamanul.cocktaildb.domain.model.Ingredient
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 
-import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -106,7 +103,8 @@ class TestDatabaseQueries {
             listOfIngredients = listOf(
                 Ingredient("testIngredient1", "testMeasure1"),
                 Ingredient("testIngredient2", "testMeasure2")
-            )
+            ),
+            isFavourite = false
         )
         dataSource.saveCocktailAndIngredientsToDatabase(cocktail)
 

@@ -1,0 +1,10 @@
+{
+  "drinks": [
+    {
+      "strCategory": "Ordinary Drink"
+    },
+    {
+      "strCategory": "Cocktail"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
-package com.mechamanul.cocktaildb.data.remote
+package com.mechamanul.cocktaildb.data.remote.responses
 
 import com.google.gson.annotations.SerializedName
-import com.mechamanul.cocktaildb.domain.Cocktail
+import com.mechamanul.cocktaildb.domain.model.Cocktail
 
 
 data class CocktailResponse(@SerializedName("drinks") val cocktails: List<Cocktail>?)

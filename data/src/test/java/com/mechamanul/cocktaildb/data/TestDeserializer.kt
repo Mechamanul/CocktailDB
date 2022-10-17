@@ -2,6 +2,7 @@ package com.mechamanul.cocktaildb.data.remote
 
 import com.google.gson.*
 import com.google.gson.stream.JsonReader
+import com.mechamanul.cocktaildb.data.remote.responses.CocktailResponse
 import com.mechamanul.cocktaildb.data.remote.testutils.createSimpleTestCocktail
 import com.mechamanul.cocktaildb.data.remote.testutils.createTestCocktailNoMeasures
 import com.mechamanul.cocktaildb.data.remote.type_adapters.CocktailResponseDeserializer
@@ -14,7 +15,7 @@ import java.io.File
 import java.io.InputStreamReader
 
 
-const val relativePathToTestJsons = "src/test/java/com/mechamanul/cocktaildb/data/remote/testutils"
+const val relativePathToTestJsons = "src/test/java/com/mechamanul/cocktaildb/data/testutils"
 
 class TestDeserializer {
     private fun getTestJsonByFilename(filename: String): JsonElement {
@@ -97,6 +98,7 @@ class TestDeserializer {
         )
         assertEquals(testCocktail, deserializationResult.cocktails!![0])
     }
+
 
 
 }

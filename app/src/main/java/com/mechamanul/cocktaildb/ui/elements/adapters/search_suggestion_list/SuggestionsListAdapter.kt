@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mechamanul.cocktaildb.databinding.SuggestionItemBinding
-import com.mechamanul.cocktaildb.domain.Cocktail
+import com.mechamanul.cocktaildb.domain.model.Cocktail
 import com.mechamanul.cocktaildb.ui.elements.callbacks.CocktailDiffCallback
 import com.mechamanul.cocktaildb.ui.elements.adapters.search_suggestion_list.SuggestionsListAdapter.SuggestionViewHolder
 import com.mechamanul.cocktaildb.ui.pages.start_page.NavigationCallback

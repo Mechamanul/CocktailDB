@@ -1,7 +1,7 @@
 package com.mechamanul.cocktaildb.ui.elements.callbacks
 
 import androidx.recyclerview.widget.DiffUtil
-import com.mechamanul.cocktaildb.domain.Cocktail
+import com.mechamanul.cocktaildb.domain.model.Cocktail
 
 class CocktailDiffCallback : DiffUtil.ItemCallback<Cocktail>() {
     override fun areItemsTheSame(oldItem: Cocktail, newItem: Cocktail): Boolean =

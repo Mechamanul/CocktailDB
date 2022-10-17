@@ -1,9 +1,9 @@
 package com.mechamanul.cocktaildb.data.remote
 
+import com.mechamanul.cocktaildb.data.remote.api.CocktailApi
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit4.MockKRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runTest
 
 import org.junit.Rule
 

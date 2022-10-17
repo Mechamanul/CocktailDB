@@ -2,7 +2,7 @@ package com.mechamanul.cocktaildb.ui.pages.start_page
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mechamanul.cocktaildb.domain.Cocktail
+import com.mechamanul.cocktaildb.domain.model.Cocktail
 import com.mechamanul.cocktaildb.domain.getVisitedCocktailsUseCase
 import com.mechamanul.cocktaildb.domain.saveCocktailUseCase
 import com.mechamanul.cocktaildb.domain.searchCocktailByNameUseCase

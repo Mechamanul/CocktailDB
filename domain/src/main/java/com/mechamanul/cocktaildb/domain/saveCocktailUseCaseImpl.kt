@@ -1,5 +1,6 @@
 package com.mechamanul.cocktaildb.domain
 
+import com.mechamanul.cocktaildb.domain.model.Cocktail
 import javax.inject.Inject
 
 class saveCocktailUseCaseImpl @Inject constructor(val repository: CocktailRepository) :

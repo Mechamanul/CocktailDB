@@ -3,9 +3,9 @@ package com.mechamanul.cocktaildb.data.remote.type_adapters
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import com.mechamanul.cocktaildb.data.remote.CocktailResponse
-import com.mechamanul.cocktaildb.domain.Cocktail
-import com.mechamanul.cocktaildb.domain.Ingredient
+import com.mechamanul.cocktaildb.data.remote.responses.CocktailResponse
+import com.mechamanul.cocktaildb.domain.model.Cocktail
+import com.mechamanul.cocktaildb.domain.model.Ingredient
 import com.mechamanul.cocktaildb.utils.JsonDeserializationException
 import java.lang.reflect.Type
 import javax.inject.Inject

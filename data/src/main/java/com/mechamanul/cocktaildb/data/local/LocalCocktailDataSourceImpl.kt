@@ -1,13 +1,10 @@
 package com.mechamanul.cocktaildb.data.local
 
 import com.mechamanul.cocktaildb.data.local.dao.CocktailDao
-import com.mechamanul.cocktaildb.data.local.model.CocktailEntity
-import com.mechamanul.cocktaildb.data.local.model.CocktailIngredientsCrossRef
-import com.mechamanul.cocktaildb.data.local.model.CocktailWithIngredients
-import com.mechamanul.cocktaildb.data.local.model.IngredientEntity
+import com.mechamanul.cocktaildb.data.local.model.*
 import com.mechamanul.cocktaildb.data.repository.LocalCocktailDataSource
-import com.mechamanul.cocktaildb.domain.Cocktail
-import com.mechamanul.cocktaildb.domain.Ingredient
+import com.mechamanul.cocktaildb.domain.model.Cocktail
+import com.mechamanul.cocktaildb.domain.model.Ingredient
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.io.IOException
@@ -83,5 +80,9 @@ class LocalCocktailDataSourceImpl @Inject constructor(private val cocktailDao: C
     override suspend fun getFavouriteCocktailsFlow(): Flow<List<Cocktail>> {
         return cocktailDao.getFavouriteCocktails()
             .map { list -> list.map { cocktailWithIngredients -> mapToDomain(cocktailWithIngredients) } }
+    }
+
+    override suspend fun insertListOfCategories(categories: List<String>) {
+        cocktailDao.insertCategories(*categories.map { CategoryEntity(name = it) }.toTypedArray())
     }
 }

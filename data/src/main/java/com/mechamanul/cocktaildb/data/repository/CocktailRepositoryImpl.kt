@@ -1,6 +1,6 @@
 package com.mechamanul.cocktaildb.data.repository
 
-import com.mechamanul.cocktaildb.domain.Cocktail
+import com.mechamanul.cocktaildb.domain.model.Cocktail
 import com.mechamanul.cocktaildb.domain.CocktailRepository
 import com.mechamanul.cocktaildb.utils.AppException
 import com.mechamanul.cocktaildb.utils.Result
@@ -61,5 +61,20 @@ class CocktailRepositoryImpl @Inject constructor(
             Result.Error(AppException(e))
         }
     }
+
+    override suspend fun saveListOfCategories(): Result<Boolean> {
+        return try {
+            val categories = remoteDataSource.getListOfCategories()
+            localDataSource.insertListOfCategories(categories)
+            Result.Success(true)
+        } catch (e: Exception) {
+            Result.Error(AppException(e))
+        }
+    }
+
+    override suspend fun getListOfCategories(): Result<List<String>> {
+        TODO("Not yet implemented")
+    }
+
 
 }

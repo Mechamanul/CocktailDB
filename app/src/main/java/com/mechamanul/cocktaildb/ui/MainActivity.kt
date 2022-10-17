@@ -2,35 +2,68 @@ package com.mechamanul.cocktaildb.ui
 
 import android.os.Build
 import android.os.Bundle
-import android.view.Window
-import android.view.WindowInsets
-import android.view.WindowManager
+import android.util.Log
+import android.view.*
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-
+    val viewModel: MainActivityViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
 
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val content: View = findViewById(android.R.id.content)
+        var isDataLoaded = false
+        content.viewTreeObserver.addOnPreDrawListener(
+            object : ViewTreeObserver.OnPreDrawListener {
+                override fun onPreDraw(): Boolean {
+                    Log.d("onPreDraw", "tick")
+                    // Check if the initial data is ready.
+                    return if (isDataLoaded) {
+                        // The content is ready; start drawing.
+                        content.viewTreeObserver.removeOnPreDrawListener(this)
+                        true
+                    } else {
+                        // The content is not ready; suspend.
+                        false
+                    }
+                }
+            }
+        )
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
         binding.bottomNav.setupWithNavController(navController)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    when (state) {
+                        is MainActivityViewModel.FetchState.Error -> Log.e("data", "Erroe")
+                        is MainActivityViewModel.FetchState.Loading -> Log.d("data", "Loading")
+                        is MainActivityViewModel.FetchState.Success -> isDataLoaded = true
+                    }
+                }
+            }
+        }
     }
 
 

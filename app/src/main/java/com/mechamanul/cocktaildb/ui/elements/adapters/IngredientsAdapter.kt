@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mechamanul.cocktaildb.databinding.CocktailIngredientBinding
-import com.mechamanul.cocktaildb.domain.Ingredient
+import com.mechamanul.cocktaildb.domain.model.Ingredient
 
 class IngredientsAdapter : RecyclerView.Adapter<IngredientsAdapter.IngredientsViewHolder>() {
 

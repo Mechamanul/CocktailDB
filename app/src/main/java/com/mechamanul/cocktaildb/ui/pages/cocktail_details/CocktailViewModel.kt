@@ -3,7 +3,7 @@ package com.mechamanul.cocktaildb.ui.pages.cocktail_details
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mechamanul.cocktaildb.domain.Cocktail
+import com.mechamanul.cocktaildb.domain.model.Cocktail
 import com.mechamanul.cocktaildb.domain.getCocktailByIdUseCase
 import com.mechamanul.cocktaildb.domain.changeLikeStateUseCase
 import com.mechamanul.cocktaildb.ui.pages.cocktail_details.CocktailViewModel.CocktailUiState.Failure

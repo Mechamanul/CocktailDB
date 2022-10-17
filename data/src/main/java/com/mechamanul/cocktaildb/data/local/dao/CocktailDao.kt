@@ -5,11 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.mechamanul.cocktaildb.data.local.model.CocktailEntity
-import com.mechamanul.cocktaildb.data.local.model.CocktailIngredientsCrossRef
-import com.mechamanul.cocktaildb.data.local.model.CocktailWithIngredients
-import com.mechamanul.cocktaildb.data.local.model.IngredientEntity
-import com.mechamanul.cocktaildb.domain.Cocktail
+import com.mechamanul.cocktaildb.data.local.model.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -56,6 +52,12 @@ interface CocktailDao {
         }
 
     }
+
+    @Query("SELECT * FROM categories")
+    suspend fun getCategories(): List<CategoryEntity>
+
+    @Insert
+    suspend fun insertCategories(vararg categories: CategoryEntity)
 
     @Transaction
     @Query("SELECT * FROM cocktails WHERE isFavourite=1")

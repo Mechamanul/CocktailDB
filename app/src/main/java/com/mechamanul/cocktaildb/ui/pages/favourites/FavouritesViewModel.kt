@@ -2,7 +2,7 @@ package com.mechamanul.cocktaildb.ui.pages.favourites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mechamanul.cocktaildb.domain.Cocktail
+import com.mechamanul.cocktaildb.domain.model.Cocktail
 import com.mechamanul.cocktaildb.domain.getFavouriteCocktailsUseCase
 import com.mechamanul.cocktaildb.utils.AppException
 import com.mechamanul.cocktaildb.utils.Result

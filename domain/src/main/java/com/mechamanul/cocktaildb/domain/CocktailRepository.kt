@@ -1,5 +1,6 @@
 package com.mechamanul.cocktaildb.domain
 
+import com.mechamanul.cocktaildb.domain.model.Cocktail
 import com.mechamanul.cocktaildb.utils.Result
 import kotlinx.coroutines.flow.Flow
 
@@ -11,4 +12,6 @@ interface CocktailRepository {
     suspend fun saveCocktail(cocktail: Cocktail): Boolean
     suspend fun changeLikeState(cocktailId: Int, favourite: Boolean)
     suspend fun getFavouriteCocktailsFlow(): Result<Flow<List<Cocktail>>>
+    suspend fun saveListOfCategories(): Result<Boolean>
+    suspend fun getListOfCategories(): Result<List<String>>
 }

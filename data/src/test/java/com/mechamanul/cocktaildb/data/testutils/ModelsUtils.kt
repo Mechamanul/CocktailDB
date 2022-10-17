@@ -1,7 +1,7 @@
 package com.mechamanul.cocktaildb.data.remote.testutils
 
-import com.mechamanul.cocktaildb.domain.Cocktail
-import com.mechamanul.cocktaildb.domain.Ingredient
+import com.mechamanul.cocktaildb.domain.model.Cocktail
+import com.mechamanul.cocktaildb.domain.model.Ingredient
 
 fun createSimpleTestCocktail() = Cocktail(
     id = 16289,
@@ -17,7 +17,8 @@ fun createSimpleTestCocktail() = Cocktail(
             "Apple cider",
             "12 oz"
         )
-    )
+    ),
+    isFavourite = false
 )
 
 fun createTestCocktailNoMeasures() = Cocktail(
@@ -34,6 +35,7 @@ fun createTestCocktailNoMeasures() = Cocktail(
             "Apple cider",
             ""
         )
-    )
+    ),
+    isFavourite = false
 )
 

@@ -1,7 +1,6 @@
 package com.mechamanul.cocktaildb.data.repository
 
-import com.mechamanul.cocktaildb.domain.Cocktail
-import com.mechamanul.cocktaildb.utils.Result
+import com.mechamanul.cocktaildb.domain.model.Cocktail
 import kotlinx.coroutines.flow.Flow
 
 interface LocalCocktailDataSource {
@@ -10,4 +9,5 @@ interface LocalCocktailDataSource {
     suspend fun getCocktailById(id: Int): Cocktail
     suspend fun changeLikeState(cocktailId: Int, favourite: Boolean)
     suspend fun getFavouriteCocktailsFlow(): Flow<List<Cocktail>>
+    suspend fun insertListOfCategories(categories: List<String>)
 }

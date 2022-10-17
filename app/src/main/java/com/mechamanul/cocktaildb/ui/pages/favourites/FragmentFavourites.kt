@@ -16,7 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.FragmentFavouritesBinding
-import com.mechamanul.cocktaildb.domain.Cocktail
+import com.mechamanul.cocktaildb.domain.model.Cocktail
 import com.mechamanul.cocktaildb.ui.BaseFragment
 import com.mechamanul.cocktaildb.ui.elements.adapters.cocktail_list.CocktailsListAdapter
 import com.mechamanul.cocktaildb.ui.pages.start_page.ImageDrawerCallback
