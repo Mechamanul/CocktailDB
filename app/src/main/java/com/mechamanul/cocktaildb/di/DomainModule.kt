@@ -33,4 +33,7 @@ abstract class DomainModule {
 
     @Binds
     abstract fun bindGetCocktailCategoriesUseCaseImpl(getCocktailCategoriesUseCaseImpl: getCocktailCategoriesUseCaseImpl): getCocktailCategoriesUseCase
+
+    @Binds
+    abstract fun bindGetCocktailsByCategoryNameUseCaseImpl(getCocktailsByCategoryNameImpl: getCocktailsByCategoryNameImpl): getCocktailsByCategoryName
 }

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.appcompat.widget.SearchView.*
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -21,7 +21,10 @@ import com.mechamanul.cocktaildb.domain.model.Cocktail
 import com.mechamanul.cocktaildb.ui.BaseFragment
 import com.mechamanul.cocktaildb.ui.elements.adapters.cocktail_list.CocktailsListAdapter
 import com.mechamanul.cocktaildb.ui.elements.adapters.search_suggestion_list.SuggestionsListAdapter
-import com.mechamanul.cocktaildb.ui.pages.start_page.StartPageViewModel.*
+import com.mechamanul.cocktaildb.ui.elements.callbacks.ImageDrawerCallback
+import com.mechamanul.cocktaildb.ui.elements.callbacks.NavigationCallback
+import com.mechamanul.cocktaildb.ui.pages.start_page.StartPageViewModel.CocktailSearchResult
+import com.mechamanul.cocktaildb.ui.pages.start_page.StartPageViewModel.GetVisitedCocktailResult
 import com.mechamanul.cocktaildb.utils.ConnectionException
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -154,19 +157,12 @@ class FragmentStartPage : BaseFragment(), ImageDrawerCallback, NavigationCallbac
     override fun navigateToCocktailDetails(cocktail: Cocktail): Job =
         viewLifecycleOwner.lifecycleScope.launch {
             val job = async { viewModel.saveChosenCocktailToDatabase(cocktail) }
-            job.await()
             val action =
                 FragmentStartPageDirections.actionFragmentStartPageToFragmentCocktailBase(
                     cocktail.id
                 )
+            job.await()
             findNavController().navigate(action)
         }
 }
 
-interface ImageDrawerCallback {
-    fun drawImageCallback(imageView: ImageView, url: String)
-}
-
-interface NavigationCallback {
-    fun navigateToCocktailDetails(cocktail: Cocktail): Job
-}

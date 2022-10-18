@@ -23,19 +23,34 @@
 
         <argument
             android:name="id"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSearchByCategory"
         android:name="com.mechamanul.cocktaildb.ui.pages.search_category.FragmentSearchByCategory"
-        android:label="FragmentSearchByCategory" />
+        android:label="FragmentSearchByCategory">
+        <action
+            android:id="@+id/action_fragmentSearchByCategory_to_fragmentCocktailsInCategory"
+            app:destination="@id/fragmentCocktailsInCategory" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentFavourites"
         android:name="com.mechamanul.cocktaildb.ui.pages.favourites.FragmentFavourites"
-        android:label="FragmentFavourites" >
+        android:label="FragmentFavourites">
         <action
             android:id="@+id/action_fragmentFavourites_to_fragmentCocktailBase"
+            app:destination="@id/fragmentCocktailBase" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentCocktailsInCategory"
+        android:name="com.mechamanul.cocktaildb.ui.pages.category_cocktails.FragmentCocktailsInCategory"
+        android:label="FragmentCocktailsInCategory">
+        <argument
+            android:name="categoryName"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_fragmentCocktailsInCategory_to_fragmentCocktailBase"
             app:destination="@id/fragmentCocktailBase" />
     </fragment>
 

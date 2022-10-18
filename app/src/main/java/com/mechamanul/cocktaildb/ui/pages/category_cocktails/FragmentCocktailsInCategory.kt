@@ -1,6 +1,7 @@
-package com.mechamanul.cocktaildb.ui.pages.favourites
+package com.mechamanul.cocktaildb.ui.pages.category_cocktails
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -21,46 +23,57 @@ import com.mechamanul.cocktaildb.ui.BaseFragment
 import com.mechamanul.cocktaildb.ui.elements.adapters.cocktail_list.CocktailsListAdapter
 import com.mechamanul.cocktaildb.ui.elements.callbacks.ImageDrawerCallback
 import com.mechamanul.cocktaildb.ui.elements.callbacks.NavigationCallback
+import com.mechamanul.cocktaildb.ui.pages.start_page.FragmentStartPageDirections
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class FragmentFavourites : BaseFragment(), ImageDrawerCallback, NavigationCallback {
-    private val viewModel: FavouritesViewModel by viewModels()
+class FragmentCocktailsInCategory : BaseFragment(), ImageDrawerCallback, NavigationCallback {
+
+    val args: FragmentCocktailsInCategoryArgs by navArgs()
+    val viewModel: CocktailsInCategoryViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return FragmentCocktailListBinding.inflate(inflater).root
+        return FragmentCocktailListBinding.inflate(layoutInflater).root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val binding = FragmentCocktailListBinding.bind(view)
+        Log.d("args", args.categoryName)
         val adapter = CocktailsListAdapter(this, this)
         binding.apply {
             rv.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-
             rv.adapter = adapter
-
         }
-        super.onViewCreated(view, savedInstanceState)
+
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiFlow.collect { uiState ->
-                    when (uiState) {
-                        is FavouritesViewModel.UiState.Failure -> handleExceptions(
-                            uiState.exception,
+                viewModel.uiState.collect {
+                    when (it) {
+                        is CocktailsInCategoryViewModel.InCategoryUiState.Failure -> handleExceptions(
+                            it.exception,
                             binding.root
-                        ).show()
-                        is FavouritesViewModel.UiState.Success -> uiState.data.collect {
-                            adapter.submitList(it)
+                        )
+                        is CocktailsInCategoryViewModel.InCategoryUiState.Success -> {
+                            Log.d("cocktails", it.cocktails.toString())
+                            adapter.submitList(
+                                it.cocktails
+                            )
                         }
                     }
                 }
             }
         }
+
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun drawImageCallback(imageView: ImageView, url: String) {
@@ -69,10 +82,15 @@ class FragmentFavourites : BaseFragment(), ImageDrawerCallback, NavigationCallba
             .transform(CenterCrop(), RoundedCorners(58)).into(imageView)
     }
 
-    override fun navigateToCocktailDetails(cocktail: Cocktail) =
+    override fun navigateToCocktailDetails(cocktail: Cocktail): Job =
         viewLifecycleOwner.lifecycleScope.launch {
+            val job = async { viewModel.saveChosenCocktailToDatabase(cocktail) }
             val action =
-                FragmentFavouritesDirections.actionFragmentFavouritesToFragmentCocktailBase(cocktail.id)
+                FragmentCocktailsInCategoryDirections.actionFragmentCocktailsInCategoryToFragmentCocktailBase(
+                    cocktail.id
+                )
+            job.await()
             findNavController().navigate(action)
         }
+
 }

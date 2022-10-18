@@ -14,4 +14,7 @@ interface CocktailApi {
 
     @GET("list.php")
     suspend fun getListOfCategories(@Query("c") list: String = "list"): CategoryResponse
+
+    @GET("filter.php")
+    suspend fun getCocktailByCategoryName(@Query("c") categoryName: String): CocktailResponse
 }

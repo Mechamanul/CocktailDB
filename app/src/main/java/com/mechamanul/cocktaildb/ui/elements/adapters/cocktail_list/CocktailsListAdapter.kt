@@ -9,8 +9,8 @@ import com.mechamanul.cocktaildb.databinding.VisitedCocktailsItemBinding
 import com.mechamanul.cocktaildb.domain.model.Cocktail
 import com.mechamanul.cocktaildb.ui.elements.callbacks.CocktailDiffCallback
 import com.mechamanul.cocktaildb.ui.elements.adapters.cocktail_list.CocktailsListAdapter.VisitedCocktailViewHolder
-import com.mechamanul.cocktaildb.ui.pages.start_page.ImageDrawerCallback
-import com.mechamanul.cocktaildb.ui.pages.start_page.NavigationCallback
+import com.mechamanul.cocktaildb.ui.elements.callbacks.ImageDrawerCallback
+import com.mechamanul.cocktaildb.ui.elements.callbacks.NavigationCallback
 
 
 class CocktailsListAdapter(

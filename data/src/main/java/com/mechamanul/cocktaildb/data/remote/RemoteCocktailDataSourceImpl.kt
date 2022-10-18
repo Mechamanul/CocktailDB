@@ -36,6 +36,12 @@ class RemoteCocktailDataSourceImpl @Inject constructor(
         cocktailApi.getListOfCategories().categories.map { it.name }
     }
 
+    override suspend fun getCocktailsByCategoryName(categoryName: String): List<Cocktail> =
+        wrapRetrofitExceptions {
+            cocktailApi.getCocktailByCategoryName(categoryName).cocktails
+                ?: throw EmptyRetrofitResultException("Somehow cocktails with this category do not exist")
+        }
+
     private suspend fun <T> wrapRetrofitExceptions(block: suspend () -> T): T {
         return try {
             block()

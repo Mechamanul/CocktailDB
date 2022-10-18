@@ -70,7 +70,16 @@ class CocktailRepositoryImpl @Inject constructor(
                 categories = remoteDataSource.getListOfCategories()
                 localDataSource.insertListOfCategories(categories)
             }
-            Result.Success(categories)  
+            Result.Success(categories)
+        } catch (e: Exception) {
+            Result.Error(AppException(e))
+        }
+    }
+
+    override suspend fun getCocktailsByCategoryName(categoryName: String): Result<List<Cocktail>> {
+        return try {
+            val cocktails = remoteDataSource.getCocktailsByCategoryName(categoryName)
+            return Result.Success(cocktails)
         } catch (e: Exception) {
             Result.Error(AppException(e))
         }

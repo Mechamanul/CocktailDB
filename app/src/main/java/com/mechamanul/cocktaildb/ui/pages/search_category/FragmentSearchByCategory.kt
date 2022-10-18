@@ -8,16 +8,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mechamanul.cocktaildb.databinding.FragmentSearchByCategoryBinding
 import com.mechamanul.cocktaildb.ui.BaseFragment
 import com.mechamanul.cocktaildb.ui.elements.adapters.CategoriesAdapter
+import com.mechamanul.cocktaildb.ui.elements.adapters.NavigateToCategory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class FragmentSearchByCategory : BaseFragment() {
+class FragmentSearchByCategory : BaseFragment(), NavigateToCategory {
     val viewModel: SearchByCategoryViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,7 +32,7 @@ class FragmentSearchByCategory : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val binding = FragmentSearchByCategoryBinding.bind(view)
-        val adapter = CategoriesAdapter(listOf())
+        val adapter = CategoriesAdapter(listOf(), this)
         binding.apply {
             rv.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -56,5 +58,15 @@ class FragmentSearchByCategory : BaseFragment() {
             }
         }
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun navigate(categoryName: String) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val action =
+                FragmentSearchByCategoryDirections.actionFragmentSearchByCategoryToFragmentCocktailsInCategory(
+                    categoryName
+                )
+            findNavController().navigate(action)
+        }
     }
 }

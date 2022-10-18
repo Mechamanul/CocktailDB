@@ -8,7 +8,7 @@ import com.mechamanul.cocktaildb.databinding.SuggestionItemBinding
 import com.mechamanul.cocktaildb.domain.model.Cocktail
 import com.mechamanul.cocktaildb.ui.elements.callbacks.CocktailDiffCallback
 import com.mechamanul.cocktaildb.ui.elements.adapters.search_suggestion_list.SuggestionsListAdapter.SuggestionViewHolder
-import com.mechamanul.cocktaildb.ui.pages.start_page.NavigationCallback
+import com.mechamanul.cocktaildb.ui.elements.callbacks.NavigationCallback
 
 class SuggestionsListAdapter(val navigationCallback: NavigationCallback) :
     ListAdapter<Cocktail, SuggestionViewHolder>(CocktailDiffCallback()) {
