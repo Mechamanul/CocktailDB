@@ -69,11 +69,11 @@ class LocalCocktailDataSourceImpl @Inject constructor(private val cocktailDao: C
         return CocktailEntity(
             name = name,
             cocktailId = id.toLong(),
-            category = category,
-            type = type,
-            glass = glass,
+            category = category ?: throw Exception("category is null"),
+            type = type ?: throw Exception("type is null"),
+            glass = glass ?: throw Exception("glass is null"),
             imageUrl = imageUrl,
-            instruction = instruction,
+            instruction = instruction ?: throw Exception("instruction is null"),
         )
     }
 

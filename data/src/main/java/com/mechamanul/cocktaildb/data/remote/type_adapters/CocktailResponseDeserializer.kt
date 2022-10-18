@@ -36,10 +36,13 @@ class CocktailResponseDeserializer @Inject constructor() : JsonDeserializer<Cock
         val listJsonArray = json?.asJsonArray
         return listJsonArray?.map { drinkJsonElement ->
             val drinkJsonObject = drinkJsonElement.asJsonObject
+
+            //get all of strIngredientN
             val numberToIngredientMeasure = drinkJsonObject.entrySet()?.filter {
                 val field = it.key
                 field[field.length - 1].isDigit()
             }?.groupBy { it.key.filter { it.isDigit() } }
+
             val listOfIngredients = numberToIngredientMeasure?.filter {
                 val ingredientName = it.value[0].value
                 !ingredientName.isJsonNull
@@ -52,17 +55,20 @@ class CocktailResponseDeserializer @Inject constructor() : JsonDeserializer<Cock
                     Ingredient(ingredientName.asString, "")
                 }
             } ?: listOf()
-            Cocktail(
+            println(listOfIngredients.toString())
+            val cocktail = Cocktail(
                 id = drinkJsonObject["idDrink"].asInt,
                 name = drinkJsonObject["strDrink"].asString,
-                category = drinkJsonObject["strCategory"].asString,
-                type = drinkJsonObject["strAlcoholic"].asString,
-                glass = drinkJsonObject["strGlass"].asString,
-                instruction = drinkJsonObject["strInstructions"].asString,
+                category = drinkJsonObject["strCategory"]?.asString,
+                type = drinkJsonObject["strAlcoholic"]?.asString,
+                glass = drinkJsonObject["strGlass"]?.asString,
+                instruction = drinkJsonObject["strInstructions"]?.asString,
                 imageUrl = drinkJsonObject["strDrinkThumb"].asString,
                 listOfIngredients = listOfIngredients,
                 isFavourite = false
             )
+            println(cocktail.toString())
+            cocktail
         } ?: listOf()
     }
 }

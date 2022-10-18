@@ -52,7 +52,7 @@ class FragmentCocktailPage : Fragment() {
                             category.text = cocktail.category
                             type.text = cocktail.type
                             glassType.text = cocktail.glass
-                            fabState = cocktail.isFavourite
+                            fabState = cocktail.isFavourite!!
                             with(fab) {
                                 changeFabIcon(fabState)
                             }

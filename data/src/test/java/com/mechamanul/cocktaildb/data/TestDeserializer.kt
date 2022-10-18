@@ -6,6 +6,7 @@ import com.mechamanul.cocktaildb.data.remote.responses.CocktailResponse
 import com.mechamanul.cocktaildb.data.remote.testutils.createSimpleTestCocktail
 import com.mechamanul.cocktaildb.data.remote.testutils.createTestCocktailNoMeasures
 import com.mechamanul.cocktaildb.data.remote.type_adapters.CocktailResponseDeserializer
+import com.mechamanul.cocktaildb.domain.model.Cocktail
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
@@ -99,6 +100,28 @@ class TestDeserializer {
         assertEquals(testCocktail, deserializationResult.cocktails!![0])
     }
 
+    @Test
+    fun deserializeCorrectlyFilterByCategory() {
+        val testResult =
+            CocktailResponse(
+                listOf(
+                    Cocktail(
+                        15346,
+                        "155 Belmont",
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        listOf(),
+                        false
+                    )
+                )
+            )
+        val deserializationResult =
+            gson.fromJson(getTestJsonByFilename("byCategoryRequest"), CocktailResponse::class.java)
+        assertEquals(testResult, deserializationResult)
+    }
 
 
 }

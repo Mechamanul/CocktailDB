@@ -9,6 +9,6 @@ class changeLikeStateUseCaseImpl @Inject constructor(
     changeLikeStateUseCase {
     override suspend fun invoke(cocktailId: Int) {
         val cocktail = getCocktailByIdUseCase.invoke(cocktailId)
-        repository.changeLikeState(cocktail.id, !cocktail.isFavourite)
+        repository.changeLikeState(cocktail.id, !cocktail.isFavourite!!)
     }
 }
