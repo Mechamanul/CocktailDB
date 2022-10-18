@@ -1,15 +1,11 @@
 package com.mechamanul.cocktaildb.ui
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -55,12 +51,8 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNav.setupWithNavController(navController)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { state ->
-                    when (state) {
-                        is MainActivityViewModel.FetchState.Error -> Log.e("data", "Erroe")
-                        is MainActivityViewModel.FetchState.Loading -> Log.d("data", "Loading")
-                        is MainActivityViewModel.FetchState.Success -> isDataLoaded = true
-                    }
+                viewModel.isLoaded.collect { state ->
+                    isDataLoaded = state
                 }
             }
         }

@@ -10,4 +10,5 @@ interface LocalCocktailDataSource {
     suspend fun changeLikeState(cocktailId: Int, favourite: Boolean)
     suspend fun getFavouriteCocktailsFlow(): Flow<List<Cocktail>>
     suspend fun insertListOfCategories(categories: List<String>)
+    suspend fun getListOfCategories(): List<String>
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:colorBackground"
-    android:padding="24dp"
+    android:paddingHorizontal="18dp"
     tools:context=".ui.pages.start_page.FragmentStartPage">
 
     <androidx.constraintlayout.widget.Guideline
@@ -13,14 +13,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.7" />
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_cocktail"
         android:layout_width="0dp"
         android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="16dp"
         android:background="@drawable/corners_rounded_36_color_surface"
-        android:elevation="4dp"
+        android:elevation="16dp"
         app:iconifiedByDefault="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

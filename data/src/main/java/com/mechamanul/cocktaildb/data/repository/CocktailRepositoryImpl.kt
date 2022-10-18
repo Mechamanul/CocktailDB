@@ -62,18 +62,18 @@ class CocktailRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveListOfCategories(): Result<Boolean> {
+
+    override suspend fun getListOfCategories(): Result<List<String>> {
         return try {
-            val categories = remoteDataSource.getListOfCategories()
-            localDataSource.insertListOfCategories(categories)
-            Result.Success(true)
+            var categories = localDataSource.getListOfCategories()
+            if (categories.isEmpty()) {
+                categories = remoteDataSource.getListOfCategories()
+                localDataSource.insertListOfCategories(categories)
+            }
+            Result.Success(categories)  
         } catch (e: Exception) {
             Result.Error(AppException(e))
         }
-    }
-
-    override suspend fun getListOfCategories(): Result<List<String>> {
-        TODO("Not yet implemented")
     }
 
 

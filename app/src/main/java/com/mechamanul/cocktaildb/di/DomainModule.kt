@@ -32,5 +32,5 @@ abstract class DomainModule {
     abstract fun bindGetFavouriteCocktailsImpl(getFavouriteCocktailsUseCaseImpl: getFavouriteCocktailsUseCaseImpl): getFavouriteCocktailsUseCase
 
     @Binds
-    abstract fun prefetchCategoiresUseCaseImpl(prefetchCocktailCategoriesImpl: prefetchCocktailCategoriesImpl): prefetchCocktailCategories
+    abstract fun bindGetCocktailCategoriesUseCaseImpl(getCocktailCategoriesUseCaseImpl: getCocktailCategoriesUseCaseImpl): getCocktailCategoriesUseCase
 }

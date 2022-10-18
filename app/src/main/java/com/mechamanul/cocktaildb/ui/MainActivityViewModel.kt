@@ -2,8 +2,7 @@ package com.mechamanul.cocktaildb.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mechamanul.cocktaildb.domain.prefetchCocktailCategories
-import com.mechamanul.cocktaildb.utils.AppException
+import com.mechamanul.cocktaildb.domain.getCocktailCategoriesUseCase
 import com.mechamanul.cocktaildb.utils.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,25 +11,20 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainActivityViewModel @Inject constructor(private val prefetchCocktailCategories: prefetchCocktailCategories) :
+class MainActivityViewModel @Inject constructor(private val getCocktailCategoriesUseCase: getCocktailCategoriesUseCase) :
     ViewModel() {
 
     init {
         viewModelScope.launch {
-            _uiState.value = when (val apiResult = prefetchCocktailCategories.invoke()) {
-                is Result.Error -> FetchState.Error(apiResult.exception)
-                is Result.Success -> FetchState.Success(apiResult.data)
+            _isLoaded.value = when (getCocktailCategoriesUseCase.invoke()) {
+                is Result.Error -> false
+                is Result.Success -> true
             }
         }
     }
 
-    private val _uiState = MutableStateFlow<FetchState>(FetchState.Loading)
-    val uiState: StateFlow<FetchState> = _uiState
+    private val _isLoaded = MutableStateFlow(false)
+    val isLoaded: StateFlow<Boolean> = _isLoaded
 
-    sealed class FetchState {
-        object Loading : FetchState()
-        data class Error(val e: AppException) : FetchState()
-        data class Success(val result: Boolean) : FetchState()
-    }
 
 }

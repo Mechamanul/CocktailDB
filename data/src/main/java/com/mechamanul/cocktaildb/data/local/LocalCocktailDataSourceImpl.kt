@@ -85,4 +85,8 @@ class LocalCocktailDataSourceImpl @Inject constructor(private val cocktailDao: C
     override suspend fun insertListOfCategories(categories: List<String>) {
         cocktailDao.insertCategories(*categories.map { CategoryEntity(name = it) }.toTypedArray())
     }
+
+    override suspend fun getListOfCategories(): List<String> {
+        return cocktailDao.getCategories().map { it.name }
+    }
 }
