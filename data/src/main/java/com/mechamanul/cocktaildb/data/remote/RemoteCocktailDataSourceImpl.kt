@@ -13,7 +13,7 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 
 class RemoteCocktailDataSourceImpl @Inject constructor(
-    private val cocktailApi: CocktailApi
+    private val cocktailApi: CocktailApi,
 ) : RemoteCocktailDataSource {
     override suspend fun getRandomCocktail(): Cocktail = wrapRetrofitExceptions {
 
@@ -41,6 +41,11 @@ class RemoteCocktailDataSourceImpl @Inject constructor(
             cocktailApi.getCocktailByCategoryName(categoryName).cocktails
                 ?: throw EmptyRetrofitResultException("Somehow cocktails with this category do not exist")
         }
+
+    override suspend fun getCocktailById(id: Int): Cocktail = wrapRetrofitExceptions {
+        cocktailApi.getCocktailById(id).cocktails?.get(0)
+            ?: throw EmptyRetrofitResultException("There is no cocktail with given id")
+    }
 
     private suspend fun <T> wrapRetrofitExceptions(block: suspend () -> T): T {
         return try {

@@ -28,7 +28,7 @@ interface CocktailDao {
 
     @Transaction
     @Query("SELECT * FROM cocktails WHERE cocktailId=:id")
-    suspend fun getCocktailById(id: Int): CocktailWithIngredients
+    suspend fun getCocktailById(id: Int): CocktailWithIngredients?
 
     @Query("UPDATE cocktails SET isFavourite = :isFavourite WHERE cocktailId=:id")
     suspend fun setIsFavourite(id: Int, isFavourite: Boolean)
@@ -36,7 +36,7 @@ interface CocktailDao {
     @Transaction
     suspend fun insertCocktailWithIngredients(
         cocktail: CocktailEntity,
-        ingredientsMeasure: Map<String, String>
+        ingredientsMeasure: Map<String, String>,
     ) {
         val cocktailId = insertCocktail(cocktail)
         ingredientsMeasure.entries.forEach {

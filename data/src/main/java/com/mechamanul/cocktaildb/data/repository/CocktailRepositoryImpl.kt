@@ -20,7 +20,8 @@ class CocktailRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getCocktailById(id: Int): Cocktail {
-        return localDataSource.getCocktailById(id)
+
+        return localDataSource.getCocktailById(id)?:remoteDataSource.getCocktailById(id)
     }
 
     override suspend fun getVisitedCocktailsList(): Flow<List<Cocktail>> {

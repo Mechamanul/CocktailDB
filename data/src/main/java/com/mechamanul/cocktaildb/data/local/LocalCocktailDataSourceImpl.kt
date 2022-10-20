@@ -24,8 +24,8 @@ class LocalCocktailDataSourceImpl @Inject constructor(private val cocktailDao: C
         )
     }
 
-    override suspend fun getCocktailById(id: Int): Cocktail {
-        return mapToDomain(cocktailDao.getCocktailById(id))
+    override suspend fun getCocktailById(id: Int): Cocktail? {
+        return cocktailDao.getCocktailById(id)?.let { mapToDomain(it) }
     }
 
     override suspend fun changeLikeState(cocktailId: Int, favourite: Boolean) {

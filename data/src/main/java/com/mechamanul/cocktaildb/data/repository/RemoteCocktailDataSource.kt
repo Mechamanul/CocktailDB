@@ -7,4 +7,5 @@ interface RemoteCocktailDataSource {
     suspend fun searchCocktailByName(name: String): List<Cocktail>
     suspend fun getListOfCategories(): List<String>
     suspend fun getCocktailsByCategoryName(categoryName: String): List<Cocktail>
+    suspend fun getCocktailById(id: Int): Cocktail
 }
