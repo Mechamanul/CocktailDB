@@ -4,10 +4,10 @@ import com.google.gson.JsonParseException
 import com.mechamanul.cocktaildb.data.remote.api.CocktailApi
 import com.mechamanul.cocktaildb.data.repository.RemoteCocktailDataSource
 import com.mechamanul.cocktaildb.domain.model.Cocktail
-import com.mechamanul.cocktaildb.utils.AppException
-import com.mechamanul.cocktaildb.utils.ConnectionException
-import com.mechamanul.cocktaildb.utils.EmptyRetrofitResultException
-import com.mechamanul.cocktaildb.utils.JsonDeserializationException
+import com.mechamanul.cocktaildb.domain.common.AppException
+import com.mechamanul.cocktaildb.domain.common.ConnectionException
+import com.mechamanul.cocktaildb.domain.common.EmptyRetrofitResultException
+import com.mechamanul.cocktaildb.domain.common.JsonDeserializationException
 import retrofit2.HttpException
 import java.net.UnknownHostException
 import javax.inject.Inject

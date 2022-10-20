@@ -14,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.ActivityMainBinding
+import com.mechamanul.cocktaildb.domain.common.Result
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -52,7 +53,11 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isLoaded.collect { state ->
-                    isDataLoaded = state
+                    when (state) {
+                        is Result.Error -> Log.d("Error",
+                            "When tried to fetch categories from repository")
+                        is Result.Success -> if (state.data.isNotEmpty()) isDataLoaded = true
+                    }
                 }
             }
         }

@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.FragmentCocktailListBinding
+import com.mechamanul.cocktaildb.domain.common.Result
 import com.mechamanul.cocktaildb.domain.model.Cocktail
 import com.mechamanul.cocktaildb.ui.BaseFragment
 import com.mechamanul.cocktaildb.ui.elements.adapters.cocktail_list.CocktailsListAdapter
@@ -50,11 +51,11 @@ class FragmentFavourites : BaseFragment(), ImageDrawerCallback, NavigationCallba
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiFlow.collect { uiState ->
                     when (uiState) {
-                        is FavouritesViewModel.UiState.Failure -> handleExceptions(
+                        is Result.Error -> handleExceptions(
                             uiState.exception,
                             binding.root
                         ).show()
-                        is FavouritesViewModel.UiState.Success -> uiState.data.collect {
+                        is Result.Success -> uiState.data.collect {
                             adapter.submitList(it)
                         }
                     }

@@ -10,8 +10,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
 import com.mechamanul.cocktaildb.databinding.FragmentCocktailBaseBinding
+import com.mechamanul.cocktaildb.domain.common.Result
 import com.mechamanul.cocktaildb.ui.BaseFragment
-import com.mechamanul.cocktaildb.ui.pages.cocktail_details.CocktailViewModel.CocktailUiState.*
 import com.mechamanul.cocktaildb.ui.pages.cocktail_details.ingredients.FragmentCocktailIngredients
 import com.mechamanul.cocktaildb.ui.pages.cocktail_details.main_info.FragmentCocktailPage
 import com.mechamanul.cocktaildb.ui.elements.adapters.ViewPagerAdapter
@@ -51,13 +51,21 @@ class FragmentCocktailBase : BaseFragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiFlow.collect {
                     when (it) {
-                        is Failure -> handleExceptions(it.exception, binding.root).show()
-                        is InitialLoading -> binding.apply {
-                            viewPager.visibility = View.GONE
+                        is CocktailViewModel.UiState.CallCompleted -> {
+                            when (it.result) {
+                                is Result.Error -> handleExceptions(
+                                    it.result.exception,
+                                    binding.root
+                                ).show()
+                                is Result.Success -> binding.apply {
+                                    layoutLoading.root.visibility = View.GONE
+                                    viewPager.visibility = View.VISIBLE
+                                }
+                            }
+
                         }
-                        is Success -> binding.apply {
-                            layoutLoading.root.visibility = View.GONE
-                            viewPager.visibility = View.VISIBLE
+                        is CocktailViewModel.UiState.InitialLoading -> binding.apply {
+                            viewPager.visibility = View.GONE
                         }
                     }
                 }

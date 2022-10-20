@@ -3,9 +3,8 @@ package com.mechamanul.cocktaildb.ui.pages.favourites
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mechamanul.cocktaildb.domain.model.Cocktail
-import com.mechamanul.cocktaildb.domain.getFavouriteCocktailsUseCase
-import com.mechamanul.cocktaildb.utils.AppException
-import com.mechamanul.cocktaildb.utils.Result
+import com.mechamanul.cocktaildb.domain.usecase.GetFavouriteCocktailsUseCase
+import com.mechamanul.cocktaildb.domain.common.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,11 +13,15 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+typealias FavouritesResult = Result<Flow<List<Cocktail>>>
+
 @HiltViewModel
-class FavouritesViewModel @Inject constructor(private val getFavouriteCocktailsUseCase: getFavouriteCocktailsUseCase) :
+class FavouritesViewModel @Inject constructor(private val getFavouriteCocktailsUseCase: GetFavouriteCocktailsUseCase) :
     ViewModel() {
-    private val _uiFlow: MutableStateFlow<UiState> = MutableStateFlow(UiState.Success(flowOf()))
-    val uiFlow: StateFlow<UiState> = _uiFlow
+
+    private val _uiFlow: MutableStateFlow<FavouritesResult> =
+        MutableStateFlow(Result.Success(flowOf()))
+    val uiFlow: StateFlow<FavouritesResult> = _uiFlow
 
     init {
         getCocktails()
@@ -26,16 +29,8 @@ class FavouritesViewModel @Inject constructor(private val getFavouriteCocktailsU
     }
 
     private fun getCocktails() = viewModelScope.launch {
-        val apiResult = getFavouriteCocktailsUseCase.invoke()
-        _uiFlow.value = when (apiResult) {
-            is Result.Error -> UiState.Failure(apiResult.exception)
-            is Result.Success -> UiState.Success(apiResult.data)
-        }
+        _uiFlow.value = getFavouriteCocktailsUseCase.execute(Unit)
 
     }
 
-    sealed class UiState {
-        data class Success(val data: Flow<List<Cocktail>>) : UiState()
-        data class Failure(val exception: AppException) : UiState()
-    }
 }

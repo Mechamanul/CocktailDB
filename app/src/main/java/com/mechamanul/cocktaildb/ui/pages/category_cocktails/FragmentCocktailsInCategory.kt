@@ -18,22 +18,20 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.FragmentCocktailListBinding
+import com.mechamanul.cocktaildb.domain.common.Result
 import com.mechamanul.cocktaildb.domain.model.Cocktail
 import com.mechamanul.cocktaildb.ui.BaseFragment
 import com.mechamanul.cocktaildb.ui.elements.adapters.cocktail_list.CocktailsListAdapter
 import com.mechamanul.cocktaildb.ui.elements.callbacks.ImageDrawerCallback
 import com.mechamanul.cocktaildb.ui.elements.callbacks.NavigationCallback
-import com.mechamanul.cocktaildb.ui.pages.start_page.FragmentStartPageDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FragmentCocktailsInCategory : BaseFragment(), ImageDrawerCallback, NavigationCallback {
 
-    val args: FragmentCocktailsInCategoryArgs by navArgs()
     val viewModel: CocktailsInCategoryViewModel by viewModels()
 
     override fun onCreateView(
@@ -46,7 +44,6 @@ class FragmentCocktailsInCategory : BaseFragment(), ImageDrawerCallback, Navigat
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val binding = FragmentCocktailListBinding.bind(view)
-        Log.d("args", args.categoryName)
         val adapter = CocktailsListAdapter(this, this)
         binding.apply {
             rv.layoutManager =
@@ -58,14 +55,13 @@ class FragmentCocktailsInCategory : BaseFragment(), ImageDrawerCallback, Navigat
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {
                     when (it) {
-                        is CocktailsInCategoryViewModel.InCategoryUiState.Failure -> handleExceptions(
+                        is Result.Error -> handleExceptions(
                             it.exception,
                             binding.root
                         )
-                        is CocktailsInCategoryViewModel.InCategoryUiState.Success -> {
-                            Log.d("cocktails", it.cocktails.toString())
+                        is Result.Success -> {
                             adapter.submitList(
-                                it.cocktails
+                                it.data
                             )
                         }
                     }

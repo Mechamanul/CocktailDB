@@ -11,6 +11,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mechamanul.cocktaildb.databinding.FragmentSearchByCategoryBinding
+import com.mechamanul.cocktaildb.domain.common.Result
 import com.mechamanul.cocktaildb.ui.BaseFragment
 import com.mechamanul.cocktaildb.ui.elements.adapters.CategoriesAdapter
 import com.mechamanul.cocktaildb.ui.elements.adapters.NavigateToCategory
@@ -43,11 +44,11 @@ class FragmentSearchByCategory : BaseFragment(), NavigateToCategory {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {
                     when (it) {
-                        is SearchByCategoryViewModel.CategoriesUiState.Error -> handleExceptions(
-                            it.e,
+                        is Result.Error -> handleExceptions(
+                            it.exception,
                             binding.root
                         ).show()
-                        is SearchByCategoryViewModel.CategoriesUiState.Success -> {
+                        is Result.Success -> {
 
                             adapter.submitList(
                                 it.data

@@ -23,9 +23,8 @@ import com.mechamanul.cocktaildb.ui.elements.adapters.cocktail_list.CocktailsLis
 import com.mechamanul.cocktaildb.ui.elements.adapters.search_suggestion_list.SuggestionsListAdapter
 import com.mechamanul.cocktaildb.ui.elements.callbacks.ImageDrawerCallback
 import com.mechamanul.cocktaildb.ui.elements.callbacks.NavigationCallback
-import com.mechamanul.cocktaildb.ui.pages.start_page.StartPageViewModel.CocktailSearchResult
-import com.mechamanul.cocktaildb.ui.pages.start_page.StartPageViewModel.GetVisitedCocktailResult
-import com.mechamanul.cocktaildb.utils.ConnectionException
+import com.mechamanul.cocktaildb.domain.common.ConnectionException
+import com.mechamanul.cocktaildb.domain.common.Result
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -102,7 +101,7 @@ class FragmentStartPage : BaseFragment(), ImageDrawerCallback, NavigationCallbac
                 launch {
                     viewModel.cocktailSearch.collect { result ->
                         when (result) {
-                            is CocktailSearchResult.Failure -> {
+                            is Result.Error -> {
                                 val snackbar = handleExceptions(result.exception, binding.root)
                                 if (result.exception is ConnectionException) {
                                     snackbar.setAction("Retry") {
@@ -113,10 +112,10 @@ class FragmentStartPage : BaseFragment(), ImageDrawerCallback, NavigationCallbac
                                 }
                                 snackbar.show()
                             }
-                            is CocktailSearchResult.Success -> {
+                            is Result.Success -> {
                                 binding.suggestionsList.visibility = View.VISIBLE
                                 suggestionsAdapter.submitList(
-                                    result.cocktails
+                                    result.data
                                 )
                             }
                         }
@@ -126,12 +125,12 @@ class FragmentStartPage : BaseFragment(), ImageDrawerCallback, NavigationCallbac
 
                     viewModel.visitedCocktails.collect { result ->
                         when (result) {
-                            is GetVisitedCocktailResult.Failure -> handleExceptions(
+                            is Result.Error -> handleExceptions(
                                 result.exception,
                                 binding.root
                             ).show()
-                            is GetVisitedCocktailResult.Success -> launch {
-                                result.cocktails.collect {
+                            is Result.Success -> launch {
+                                result.data.collect {
                                     visitedCocktailsAdapter.submitList(it)
                                 }
                             }

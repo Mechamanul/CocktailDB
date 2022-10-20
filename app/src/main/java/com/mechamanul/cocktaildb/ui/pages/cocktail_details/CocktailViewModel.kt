@@ -4,60 +4,59 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mechamanul.cocktaildb.domain.model.Cocktail
-import com.mechamanul.cocktaildb.domain.getCocktailByIdUseCase
-import com.mechamanul.cocktaildb.domain.changeLikeStateUseCase
-import com.mechamanul.cocktaildb.ui.pages.cocktail_details.CocktailViewModel.CocktailUiState.Failure
-import com.mechamanul.cocktaildb.ui.pages.cocktail_details.CocktailViewModel.CocktailUiState.Success
-import com.mechamanul.cocktaildb.utils.AppException
+import com.mechamanul.cocktaildb.domain.usecase.ChangeLikeStateUseCase
+import com.mechamanul.cocktaildb.domain.usecase.GetCocktailByIdUseCase
+import com.mechamanul.cocktaildb.domain.common.AppException
+import com.mechamanul.cocktaildb.domain.common.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+typealias CocktailResult = Result<Cocktail>
 
 @HiltViewModel
 class CocktailViewModel @Inject constructor(
-    private val changeLikeStateUseCase: changeLikeStateUseCase,
-    private val getCocktailByIdUseCase: getCocktailByIdUseCase,
+    private val changeLikeStateUseCase: ChangeLikeStateUseCase,
+    private val getCocktailByIdUseCase: GetCocktailByIdUseCase,
     state: SavedStateHandle
 ) :
     ViewModel() {
     private val _uiFlow =
-        MutableStateFlow<CocktailUiState>(CocktailUiState.InitialLoading)
-    val uiFlow: StateFlow<CocktailUiState> = _uiFlow
+        MutableStateFlow<UiState>(UiState.InitialLoading)
+    val uiFlow: StateFlow<UiState> = _uiFlow
 
     init {
         val cocktailId = state.get<Int>("id")
         if (cocktailId != null) {
             getCocktail(cocktailId)
         } else {
-            _uiFlow.value = Failure(AppException("Can't get cocktail from database"))
+            _uiFlow.value =
+                UiState.CallCompleted(Result.Error(AppException("CocktailId was not passed as argument")))
         }
     }
 
 
     private fun getCocktail(id: Int) = viewModelScope.launch {
-        _uiFlow.value = CocktailUiState.InitialLoading
-        try {
-            val cocktail = getCocktailByIdUseCase.invoke(id)
-            _uiFlow.value = Success(cocktail)
-        } catch (e: AppException) {
-            _uiFlow.value = Failure(e)
-        }
+        _uiFlow.value = UiState.CallCompleted(getCocktailByIdUseCase.execute(id))
+//        try {
+//            val cocktail =
+//            _uiFlow.value = Success(cocktail)
+//        } catch (e: AppException) {
+//            _uiFlow.value = Failure(e)
+//        }
 
 
     }
 
     fun changeLikeState(cocktailId: Int) = viewModelScope.launch {
-        changeLikeStateUseCase.invoke(cocktailId)
+        changeLikeStateUseCase.execute(cocktailId)
     }
 
-
-    sealed class CocktailUiState {
-        object InitialLoading : CocktailUiState()
-        data class Success(val cocktail: Cocktail) : CocktailUiState()
-        data class Failure(val exception: AppException) : CocktailUiState()
+    sealed class UiState {
+        object InitialLoading : UiState()
+        data class CallCompleted(val result: CocktailResult) : UiState()
     }
 
 }

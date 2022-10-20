@@ -10,15 +10,15 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.FragmentCocktailIngredientsBinding
+import com.mechamanul.cocktaildb.domain.common.Result
 import com.mechamanul.cocktaildb.ui.pages.cocktail_details.CocktailViewModel
-import com.mechamanul.cocktaildb.ui.pages.cocktail_details.CocktailViewModel.CocktailUiState.Success
 import com.mechamanul.cocktaildb.ui.elements.adapters.IngredientsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FragmentCocktailIngredients : Fragment(R.layout.fragment_cocktail_ingredients) {
-     val viewModel by viewModels<CocktailViewModel>(ownerProducer = { requireParentFragment() })
+    val viewModel by viewModels<CocktailViewModel>(ownerProducer = { requireParentFragment() })
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -33,10 +33,10 @@ class FragmentCocktailIngredients : Fragment(R.layout.fragment_cocktail_ingredie
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiFlow.collect { uiState ->
-                    if (uiState is Success) {
-                        ingredientsAdapter.submit(uiState.cocktail.listOfIngredients)
-                        binding.howTo.text = uiState.cocktail.instruction
-                        ingredientsAdapter.notifyDataSetChanged()
+                    if (uiState is CocktailViewModel.UiState.CallCompleted && uiState.result is Result.Success) {
+                        val cocktail = uiState.result.data
+                        ingredientsAdapter.submit(cocktail.listOfIngredients)
+                        binding.howTo.text = cocktail.instruction
                     }
                 }
             }

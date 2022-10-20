@@ -1,4 +1,4 @@
-package com.mechamanul.cocktaildb.utils
+package com.mechamanul.cocktaildb.domain.common
 
 open class AppException : RuntimeException {
     constructor() : super()

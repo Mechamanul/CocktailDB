@@ -3,10 +3,9 @@ package com.mechamanul.cocktaildb.ui
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
-import com.mechamanul.cocktaildb.utils.AppException
-import com.mechamanul.cocktaildb.utils.ConnectionException
-import com.mechamanul.cocktaildb.utils.EmptyRetrofitResultException
-import com.mechamanul.cocktaildb.utils.JsonDeserializationException
+import com.mechamanul.cocktaildb.domain.common.AppException
+import com.mechamanul.cocktaildb.domain.common.EmptyRetrofitResultException
+import com.mechamanul.cocktaildb.domain.common.JsonDeserializationException
 
 open class BaseFragment : Fragment() {
     /**

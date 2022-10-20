@@ -15,8 +15,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.FragmentCocktailPageBinding
+import com.mechamanul.cocktaildb.domain.common.Result
 import com.mechamanul.cocktaildb.ui.pages.cocktail_details.CocktailViewModel
-import com.mechamanul.cocktaildb.ui.pages.cocktail_details.CocktailViewModel.CocktailUiState.Success
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -41,11 +41,12 @@ class FragmentCocktailPage : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiFlow.collect { uiState ->
-                    if (uiState is Success) {
-                        val cocktail = uiState.cocktail
+                    if (uiState is CocktailViewModel.UiState.CallCompleted && uiState.result is Result.Success) {
+                        val cocktail = uiState.result.data
                         binding.apply {
                             Glide.with(requireContext()).asBitmap()
-                                .load(cocktail.imageUrl).centerCrop().placeholder(R.drawable.cocktail_mojito_icon)
+                                .load(cocktail.imageUrl).centerCrop()
+                                .placeholder(R.drawable.cocktail_mojito_icon)
                                 .transform(CenterCrop(), RoundedCorners(96)).into(image)
                             drinkName.text = cocktail.name
                             drinkId.text = "ID: ${cocktail.id}"

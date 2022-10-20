@@ -22,8 +22,8 @@ class IngredientsAdapter : RecyclerView.Adapter<IngredientsAdapter.IngredientsVi
     }
 
     fun submit(newList: List<Ingredient>) {
-        Log.d("listInAdapter", newList.toString())
         listOfIngredients = newList
+        notifyDataSetChanged()
 
     }
 
