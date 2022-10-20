@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.mechamanul.cocktaildb.R
 import com.mechamanul.cocktaildb.databinding.ActivityMainBinding
@@ -50,6 +51,12 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
         binding.bottomNav.setupWithNavController(navController)
+        binding.bottomNav.setOnItemSelectedListener { item ->
+            // fix to pressed state of bottomnav when nav in nested state
+            NavigationUI.onNavDestinationSelected(item, navController)
+
+            return@setOnItemSelectedListener true
+        }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isLoaded.collect { state ->

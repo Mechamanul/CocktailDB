@@ -16,6 +16,7 @@
         app:layout_constraintGuide_percent="0.7" />
 
     <androidx.appcompat.widget.SearchView
+        app:queryBackground="@null"
         android:id="@+id/search_cocktail"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -31,11 +32,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/suggestions_list"
         android:layout_width="0dp"
+        android:translationY="-24dp"
         android:layout_height="0dp"
         android:background="@drawable/bottom_corners_rounded_36_color_surface"
         android:elevation="2dp"
         android:paddingHorizontal="18dp"
-        android:paddingTop="8dp"
+        android:paddingTop="26dp"
         android:paddingBottom="24dp"
         app:layout_constraintBottom_toTopOf="@id/suggestions_list_end"
         app:layout_constraintEnd_toEndOf="parent"
