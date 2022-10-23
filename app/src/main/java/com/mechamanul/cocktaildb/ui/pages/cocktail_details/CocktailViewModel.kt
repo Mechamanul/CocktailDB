@@ -8,9 +8,9 @@ import com.mechamanul.cocktaildb.domain.usecase.ChangeLikeStateUseCase
 import com.mechamanul.cocktaildb.domain.usecase.GetCocktailByIdUseCase
 import com.mechamanul.cocktaildb.domain.common.AppException
 import com.mechamanul.cocktaildb.domain.common.Result
+import com.mechamanul.cocktaildb.domain.usecase.GetCocktailLikeStateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,14 +18,14 @@ typealias CocktailResult = Result<Cocktail>
 
 @HiltViewModel
 class CocktailViewModel @Inject constructor(
-    private val changeLikeStateUseCase: ChangeLikeStateUseCase,
     private val getCocktailByIdUseCase: GetCocktailByIdUseCase,
-    state: SavedStateHandle
+    state: SavedStateHandle,
 ) :
     ViewModel() {
     private val _uiFlow =
         MutableStateFlow<UiState>(UiState.InitialLoading)
     val uiFlow: StateFlow<UiState> = _uiFlow
+
 
     init {
         val cocktailId = state.get<Int>("id")
@@ -40,19 +40,8 @@ class CocktailViewModel @Inject constructor(
 
     private fun getCocktail(id: Int) = viewModelScope.launch {
         _uiFlow.value = UiState.CallCompleted(getCocktailByIdUseCase.execute(id))
-//        try {
-//            val cocktail =
-//            _uiFlow.value = Success(cocktail)
-//        } catch (e: AppException) {
-//            _uiFlow.value = Failure(e)
-//        }
-
-
     }
 
-    fun changeLikeState(cocktailId: Int) = viewModelScope.launch {
-        changeLikeStateUseCase.execute(cocktailId)
-    }
 
     sealed class UiState {
         object InitialLoading : UiState()

@@ -3,6 +3,7 @@ package com.mechamanul.cocktaildb.data.local
 import com.mechamanul.cocktaildb.data.local.dao.CocktailDao
 import com.mechamanul.cocktaildb.data.local.model.*
 import com.mechamanul.cocktaildb.data.repository.LocalCocktailDataSource
+import com.mechamanul.cocktaildb.domain.common.AppException
 import com.mechamanul.cocktaildb.domain.model.Cocktail
 import com.mechamanul.cocktaildb.domain.model.Ingredient
 import kotlinx.coroutines.flow.Flow
@@ -51,7 +52,7 @@ class LocalCocktailDataSourceImpl @Inject constructor(private val cocktailDao: C
 
     private fun mergeCrossRefWithIngredients(
         crossRefs: List<CocktailIngredientsCrossRef>,
-        ingredients: List<IngredientEntity>
+        ingredients: List<IngredientEntity>,
     ): List<Ingredient> {
         val refsAssociated = crossRefs.associateBy { it.ingredientId }
         val ingredientsAssociated = ingredients.associateBy { it.ingredientId }
@@ -88,5 +89,10 @@ class LocalCocktailDataSourceImpl @Inject constructor(private val cocktailDao: C
 
     override suspend fun getListOfCategories(): List<String> {
         return cocktailDao.getCategories().map { it.name }
+    }
+
+    override suspend fun getCocktailLikeFlow(id: Int): Flow<Boolean> {
+        return cocktailDao.getCocktailLikeFlow(id)
+            ?: throw AppException("Queried null value when tried to change like state")
     }
 }

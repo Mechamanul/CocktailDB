@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class CocktailRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteCocktailDataSource,
-    private val localDataSource: LocalCocktailDataSource
+    private val localDataSource: LocalCocktailDataSource,
 ) :
     CocktailRepository {
     override suspend fun getRandomCocktail(): Cocktail {
@@ -20,8 +20,7 @@ class CocktailRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getCocktailById(id: Int): Cocktail {
-
-        return localDataSource.getCocktailById(id)?:remoteDataSource.getCocktailById(id)
+        return localDataSource.getCocktailById(id) ?: remoteDataSource.getCocktailById(id)
     }
 
     override suspend fun getVisitedCocktailsList(): Flow<List<Cocktail>> {
@@ -29,12 +28,9 @@ class CocktailRepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveCocktail(cocktail: Cocktail): Boolean {
-        return try {
-            localDataSource.saveCocktailAndIngredientsToDatabase(cocktail)
-            true
-        } catch (e: Exception) {
-            false
-        }
+
+        localDataSource.saveCocktailAndIngredientsToDatabase(cocktail)
+        return true
     }
 
     override suspend fun changeLikeState(cocktailId: Int, favourite: Boolean) {
@@ -59,6 +55,10 @@ class CocktailRepositoryImpl @Inject constructor(
 
     override suspend fun getCocktailsByCategoryName(categoryName: String): List<Cocktail> {
         return remoteDataSource.getCocktailsByCategoryName(categoryName)
+    }
+
+    override suspend fun getCocktailLikeState(id: Int): Flow<Boolean> {
+        return localDataSource.getCocktailLikeFlow(id)
     }
 
 

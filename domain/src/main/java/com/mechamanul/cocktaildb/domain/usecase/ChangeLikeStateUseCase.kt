@@ -7,22 +7,15 @@ import com.mechamanul.cocktaildb.domain.common.UseCase
 import javax.inject.Inject
 
 class ChangeLikeStateUseCase @Inject constructor(
-    val repository: CocktailRepository
+    val repository: CocktailRepository,
 ) : UseCase<Int, Unit>() {
-
-//    override suspend fun block(params: Int): Boolean {
-//        val cocktail = repository.getCocktailById(params)
-//        cocktail.isFavourite?.let {
-//            repository.changeLikeState(cocktail.id, !cocktail.isFavourite)
-//        } ?: throw AppException("Can't get cocktail instance to change it is like state")
-//        return true
-//    }
 
     override suspend fun execute(param: Int): Result<Unit> = wrapWithResult {
         val cocktail = repository.getCocktailById(param)
-        cocktail.isFavourite?.let {
-            repository.changeLikeState(cocktail.id, !cocktail.isFavourite)
-        } ?: throw AppException("Can't get cocktail instance to change it is like state")
-    }
+//        cocktail.isFavourite.let {
+        repository.changeLikeState(cocktail.id, !cocktail.isFavourite)
+    } ?: throw AppException("Can't get cocktail instance to change it is like state")
 
 }
+
+//}

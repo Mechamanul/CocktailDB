@@ -25,6 +25,7 @@ import com.mechamanul.cocktaildb.ui.elements.callbacks.ImageDrawerCallback
 import com.mechamanul.cocktaildb.ui.elements.callbacks.NavigationCallback
 import com.mechamanul.cocktaildb.domain.common.ConnectionException
 import com.mechamanul.cocktaildb.domain.common.Result
+import com.mechamanul.cocktaildb.domain.common.Result.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -38,7 +39,7 @@ class FragmentStartPage : BaseFragment(), ImageDrawerCallback, NavigationCallbac
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
 
         val binding = FragmentStartPageBinding.inflate(inflater)
@@ -101,7 +102,7 @@ class FragmentStartPage : BaseFragment(), ImageDrawerCallback, NavigationCallbac
                 launch {
                     viewModel.cocktailSearch.collect { result ->
                         when (result) {
-                            is Result.Error -> {
+                            is Error -> {
                                 val snackbar = handleExceptions(result.exception, binding.root)
                                 if (result.exception is ConnectionException) {
                                     snackbar.setAction("Retry") {
@@ -112,7 +113,7 @@ class FragmentStartPage : BaseFragment(), ImageDrawerCallback, NavigationCallbac
                                 }
                                 snackbar.show()
                             }
-                            is Result.Success -> {
+                            is Success -> {
                                 binding.suggestionsList.visibility = View.VISIBLE
                                 suggestionsAdapter.submitList(
                                     result.data
@@ -125,11 +126,11 @@ class FragmentStartPage : BaseFragment(), ImageDrawerCallback, NavigationCallbac
 
                     viewModel.visitedCocktails.collect { result ->
                         when (result) {
-                            is Result.Error -> handleExceptions(
+                            is Error -> handleExceptions(
                                 result.exception,
                                 binding.root
                             ).show()
-                            is Result.Success -> launch {
+                            is Success -> launch {
                                 result.data.collect {
                                     visitedCocktailsAdapter.submitList(it)
                                 }
@@ -155,7 +156,9 @@ class FragmentStartPage : BaseFragment(), ImageDrawerCallback, NavigationCallbac
 
     override fun navigateToCocktailDetails(cocktail: Cocktail): Job =
         viewLifecycleOwner.lifecycleScope.launch {
-            val job = async { viewModel.saveChosenCocktailToDatabase(cocktail) }
+            val job = async {
+                viewModel.saveChosenCocktailToDatabase(cocktail)
+            }
             val action =
                 FragmentStartPageDirections.actionFragmentStartPageToFragmentCocktailBase(
                     cocktail.id

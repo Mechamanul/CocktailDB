@@ -17,11 +17,14 @@ interface CocktailDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertIngredient(ingredient: IngredientEntity): Long
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertCocktail(cocktail: CocktailEntity): Long
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertCocktailIngredientCrossRef(cocktailIngredientsCrossRef: CocktailIngredientsCrossRef)
+
+    @Query("Select isFavourite from cocktails where cocktailId=:id")
+    fun getCocktailLikeFlow(id: Int): Flow<Boolean>?
 
     @Query("Select ingredientId from ingrediententity where name=:name")
     suspend fun searchIngredientByName(name: String): Long?
@@ -32,6 +35,7 @@ interface CocktailDao {
 
     @Query("UPDATE cocktails SET isFavourite = :isFavourite WHERE cocktailId=:id")
     suspend fun setIsFavourite(id: Int, isFavourite: Boolean)
+
 
     @Transaction
     suspend fun insertCocktailWithIngredients(

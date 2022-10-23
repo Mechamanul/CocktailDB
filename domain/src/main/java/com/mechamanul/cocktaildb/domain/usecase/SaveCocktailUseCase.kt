@@ -11,6 +11,7 @@ class SaveCocktailUseCase @Inject constructor(val repository: CocktailRepository
 
 
     override suspend fun execute(param: Cocktail): Result<Boolean> = wrapWithResult {
-        repository.saveCocktail(param)
+        val cocktail = repository.getCocktailById(param.id)
+        repository.saveCocktail(cocktail)
     }
 }

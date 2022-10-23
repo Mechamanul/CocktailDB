@@ -7,7 +7,7 @@
     android:background="?android:colorBackground"
     android:paddingHorizontal="24dp"
     android:paddingTop="24dp"
-    tools:context=".ui.pages.cocktail_details.main_info.FragmentCocktailPage">
+    tools:context=".ui.pages.cocktail_details.main_info.MainInfoFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_center_horizontal"

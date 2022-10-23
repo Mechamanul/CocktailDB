@@ -10,5 +10,5 @@ data class Cocktail(
     val imageUrl: String,
     val instruction: String?,
     val listOfIngredients: List<Ingredient> = listOf(),
-    val isFavourite: Boolean?
+    val isFavourite: Boolean = false
 )

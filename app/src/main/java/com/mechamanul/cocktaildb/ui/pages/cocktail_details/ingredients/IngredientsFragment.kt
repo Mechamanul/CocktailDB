@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class FragmentCocktailIngredients : Fragment(R.layout.fragment_cocktail_ingredients) {
+class IngredientsFragment : Fragment(R.layout.fragment_cocktail_ingredients) {
     val viewModel by viewModels<CocktailViewModel>(ownerProducer = { requireParentFragment() })
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

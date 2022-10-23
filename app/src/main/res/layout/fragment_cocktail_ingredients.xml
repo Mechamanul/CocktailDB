@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="?android:colorBackground"
     android:paddingHorizontal="24dp"
-    tools:context=".ui.pages.cocktail_details.ingredients.FragmentCocktailIngredients">
+    tools:context=".ui.pages.cocktail_details.ingredients.IngredientsFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_center_horizontal"
